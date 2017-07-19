@@ -13,12 +13,14 @@ timeColumn = "Time stamp"
 typeColumn = "Type"
 subtypeColumn = "Sub-type"
 weightColumn = "Weight"
+removedColumn = "Removed ?"
 
 columns = collections.OrderedDict([(idColumn, 0),
                                    (timeColumn, 1),
                                    (typeColumn, 2),
                                    (subtypeColumn, 3),
-                                   (weightColumn, 4)])
+                                   (weightColumn, 4),
+                                   (removedColumn, 5)])
 
 
 class Database:
@@ -73,6 +75,8 @@ class Database:
                 empty_row[index].value = self.last_id + 1
                 self.last_id += 1
 
+        empty_row[columns[removedColumn]].value = False
+
         self.lastRow += 1
         self.save()
         return self.last_id
@@ -81,19 +85,17 @@ class Database:
         row = self.get_row(batch_number)
         if row == -1:
             return False
-        row_number = row[0].row
-        previous_row = self.ws[row_number]
-        for row in self.ws.iter_rows(min_row=row_number + 1, max_row=self.lastRow + 1):
-            for index, cell in enumerate(row):
-                previous_row[index].value = cell.value
 
-            previous_row = row
+        row[columns[removedColumn]].value = "True"
+
         self.save()
         return True
 
     def get_info(self, batch_number):
         row = self.get_row(batch_number)
         if row == -1:
+            return False
+        if row[columns[removedColumn]].value == "True":
             return False
         return Row(batch_number=row[columns[idColumn]].value, category=row[columns[typeColumn]].value,
                    subcategory=row[columns[subtypeColumn]].value, weight=row[columns[weightColumn]].value,

@@ -249,6 +249,8 @@ class RowFrame(tk.Frame):
         super().__init__(master)
 
         for index, column in enumerate(backend.columns):
+            if column == backend.removedColumn:
+                continue
             tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=column).grid(row=0,
                                                                                                   column=index,
                                                                                                   sticky="we")
