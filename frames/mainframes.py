@@ -45,7 +45,8 @@ class HomeFrame(frames.baseframe.Frame):
                                      frames.removeitem.RemoveItemFrame.__name__),
                                  image=globalvar.images["remove"], important=True)  # Remove item button
 
-        self.add_button_to_frame(text="View database in excel", image = globalvar.images["eye"], command=helper.view_in_excel)  # View in excel button
+        self.add_button_to_frame(text="View database in excel", image=globalvar.images["eye"],
+                                 command=helper.view_in_excel)  # View in excel button
 
     def add_button_to_frame(self, text, command, image, important=False, spacer=True):
         if spacer:

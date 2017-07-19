@@ -23,7 +23,6 @@ SOFTWARE.
 '''
 import tkinter as tk
 
-import backend
 import constants
 import globalvar
 import helper
