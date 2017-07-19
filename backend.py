@@ -32,9 +32,10 @@ from constants import idColumn, timeColumn, typeColumn, subtypeColumn, weightCol
 
 
 class Database:
-    def __init__(self):
-        # TODO : Implement edge case of reaching id 99 999
 
+    last_id = 9999
+
+    def __init__(self):
         if os.path.isfile(db_file_path):
             self.workbook = openpyxl.load_workbook(filename=db_file_path)  # If file exists, load it
             self.ws = self.workbook.active
@@ -43,8 +44,6 @@ class Database:
             self.ws = self.workbook.active
 
             self.create_header()
-
-        self.last_id = 10000
 
         for index, row in enumerate(self.ws.iter_rows(row_offset=1)):  # Loop through every row
 
