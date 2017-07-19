@@ -192,6 +192,10 @@ class TitleAndContainer(tk.Frame):  # Simple frame containing a title and a cont
     def get_container(self):  # Returns container
         return self.container
 
+    def reset_container(self):
+        for child in self.container.winfo_children():
+            child.destroy()
+
 
 class YesNoFrame(Frame):  # Frame containing a title, container and yes and no buttons
     def __init__(self, master, title="", command_yes=None, command_no=None):
@@ -220,6 +224,9 @@ class YesNoFrame(Frame):  # Frame containing a title, container and yes and no b
     def get_container(self):
         return self.message_frame.get_container()
 
+    def reset_frame(self):
+        self.message_frame.reset_container()
+
 
 class MessageFrame(Frame):  # Frame displaying title, container and (home) button
     def __init__(self, master, title="", button_title="Home", command=lambda: helper.get_master().go_home()):
@@ -232,6 +239,9 @@ class MessageFrame(Frame):  # Frame displaying title, container and (home) butto
 
     def get_container(self):
         return self.message_frame.get_container()
+
+    def reset_frame(self):
+        self.message_frame.reset_container()
 
 
 class RowFrame(tk.Frame):

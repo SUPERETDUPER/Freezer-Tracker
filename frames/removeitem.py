@@ -1,13 +1,12 @@
 import tkinter as tk
 
-import backend
 import constants
 import frames.baseframe
 import frames.mainframes
 import globalvar
 import helper
 
-selectedRow = None
+idNumber = None
 
 
 class RemoveItemFrame(frames.baseframe.EnterDataFrame):
@@ -20,7 +19,7 @@ class RemoveItemFrame(frames.baseframe.EnterDataFrame):
 class ItemInfoFrame(frames.baseframe.YesNoFrame):  # Frame displaying item to remove
     def __init__(self, master=None):
         super().__init__(master, title="Remove the following item", command_no=helper.get_master().go_home,
-                         command_yes=lambda: remove_item(selectedRow))
+                         command_yes=lambda: remove_item(idNumber))
         self.previousFrame = RemoveItemFrame.__name__
 
         self.rowFrame = None
@@ -40,19 +39,31 @@ class SuccessRemoveFrame(frames.baseframe.MessageFrame):
         self.previousFrame = frames.mainframes.HomeFrame.__name__
 
 
+class NoItemFrame(frames.baseframe.MessageFrame):
+    def __init__(self, master):
+        super().__init__(master, title="No such product")
+
+
 def submit_batch_number(number):
-    global selectedRow
+    global idNumber
 
-    selectedRow = globalvar.database.get_row(number)
+    idNumber = number
 
-    helper.get_master().show_frame(ItemInfoFrame.__name__)
-    helper.get_master().get_frame(ItemInfoFrame.__name__).set_row(selectedRow)
+    row = globalvar.database.get_info(number)
+
+    if row is False:
+        helper.get_master().show_frame(NoItemFrame.__name__)
+    else:
+        helper.get_master().show_frame(ItemInfoFrame.__name__)
+        helper.get_master().get_frame(ItemInfoFrame.__name__).set_row(row)
 
 
-def remove_item(row):
-    result = globalvar.database.remove_item(row)
+def remove_item(batch_number):
+    result = globalvar.database.remove_item(batch_number)
 
     if result:
         helper.get_master().show_frame(SuccessRemoveFrame.__name__)
         container = helper.get_master().get_frame(SuccessRemoveFrame.__name__).get_container()
-        tk.Label(container, text=helper.format_batch(row.getRow()[backend.idColumn]), font=constants.FONT_HUGE).pack()
+        tk.Label(container, text=helper.format_batch(batch_number), font=constants.FONT_HUGE).pack()
+    else:
+        raise (Exception("No such product in database"))

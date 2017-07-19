@@ -64,10 +64,10 @@ class Database:
 
         for index, cell in enumerate(columns):
 
-            value = row.iter_row()[index]
+            value = row.get_row()[index]
 
             if value is not None:
-                empty_row[index].value = row.iter_row()[index]
+                empty_row[index].value = row.get_row()[index]
 
             if index == 0:
                 empty_row[index].value = self.last_id + 1
@@ -77,23 +77,37 @@ class Database:
         self.save()
         return self.last_id
 
-    def remove_item(self, row):
-        print(row.rowNumber, self.lastRow)
-        previous_row = self.ws[row.rowNumber]
-        for row in self.ws.iter_rows(min_row=row.rowNumber + 1, max_row=self.lastRow + 1):
+    def remove_item(self, batch_number):
+        row = self.get_row(batch_number)
+        if row == -1:
+            return False
+        row_number = row[0].row
+        previous_row = self.ws[row_number]
+        for row in self.ws.iter_rows(min_row=row_number + 1, max_row=self.lastRow + 1):
             for index, cell in enumerate(row):
                 previous_row[index].value = cell.value
 
             previous_row = row
         self.save()
+        return True
+
+    def get_info(self, batch_number):
+        row = self.get_row(batch_number)
+        if row == -1:
+            return False
+        return Row(batch_number=row[columns[idColumn]].value, category=row[columns[typeColumn]].value,
+                   subcategory=row[columns[subtypeColumn]].value, weight=row[columns[weightColumn]].value,
+                   entry_date=row[columns[timeColumn]].value)
 
     def get_row(self, batch_number):
-        return Row()
+        for index, row in enumerate(self.ws.iter_rows(row_offset=1)):
+            if row[columns[idColumn]].value == batch_number:
+                return row
+        return -1
 
 
 class Row:
-    def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None,
-                 databaseRowNumber=None):
+    def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None):
         if entry_date is None:
             entry_date = '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
 
@@ -105,9 +119,7 @@ class Row:
         self.row[columns[subtypeColumn]] = subcategory
         self.row[columns[weightColumn]] = weight
 
-        self.rowNumber = databaseRowNumber
-
-    def iter_row(self):
+    def get_row(self):
         return self.row
 
     def get_item(self, index):

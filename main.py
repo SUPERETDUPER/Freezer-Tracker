@@ -47,6 +47,7 @@ class MainContainer(tk.Frame):
     all_frames = (
         frames.mainframes.HomeFrame, frames.mainframes.TurnOffFrame,
         frames.removeitem.RemoveItemFrame, frames.removeitem.SuccessRemoveFrame, frames.removeitem.ItemInfoFrame,
+        frames.removeitem.NoItemFrame,
         frames.additem.ButtonMainFrame, frames.additem.ButtonSecondFrame, frames.additem.WeightFrame,
         frames.additem.SuccessMessage,
         frames.additem.ConfirmAdditionFrame)  # List of Interchangeable frames
