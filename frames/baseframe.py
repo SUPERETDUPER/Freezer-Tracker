@@ -238,10 +238,10 @@ class RowFrame(tk.Frame):
     def __init__(self, master, row):
         super().__init__(master)
 
-        for index, column in enumerate(backend.Row.columns):
-            tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=column.name).grid(row=0,
-                                                                                                       column=index,
-                                                                                                       sticky="we")
+        for index, column in enumerate(backend.columns):
+            tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=column).grid(row=0,
+                                                                                                  column=index,
+                                                                                                  sticky="we")
             self.grid_columnconfigure(index, weight=1)
 
             if row.get_item(index) is not None:

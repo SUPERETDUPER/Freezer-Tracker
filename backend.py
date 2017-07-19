@@ -7,11 +7,17 @@ import globalvar
 
 db_file_path = "freezer_inventory_database.xlsx"
 
+idColumn = "Batch number"
+timeColumn = "Time stamp"
+typeColumn = "Type"
+subtypeColumn = "Sub-type"
+weightColumn = "Weight"
 
-class Column:
-    def __init__(self, name, index):
-        self.name = name
-        self.index = index
+columns = {idColumn: 0,
+           timeColumn: 1,
+           typeColumn: 2,
+           subtypeColumn: 3,
+           weightColumn: 4}
 
 
 class Database:
@@ -41,13 +47,13 @@ class Database:
                 self.lastRow = index
                 break
 
-            if self.last_id < row[Row.idColumn.index].value:
-                self.last_id = row[Row.idColumn.index].value
+            if self.last_id < row[columns[idColumn]].value:  # Update to get latest id assigned
+                self.last_id = row[columns[idColumn]].value
 
     def create_header(self):
-        for column in Row.columns:
-            header_cell = self.ws.cell(row=1, column=column.index + 1)
-            header_cell.value = column.name
+        for column in columns.keys():
+            header_cell = self.ws.cell(row=1, column=columns[column] + 1)
+            header_cell.value = column
 
     def save(self):
         self.workbook.save(filename=db_file_path)
@@ -67,25 +73,17 @@ class Database:
 
 
 class Row:
-    idColumn = Column("Batch number", 0)
-    timeColumn = Column("Time stamp", 1)
-    typeColumn = Column("Type", 2)
-    subtypeColumn = Column("Sub-type", 3)
-    weightColumn = Column("Weight", 4)
-
-    columns = [idColumn, timeColumn, typeColumn, subtypeColumn, weightColumn]
-
     def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None):
         if entry_date is None:
             entry_date = '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
 
-        self.row = [None] * len(self.columns)
+        self.row = [None] * len(columns)
 
-        self.row[self.idColumn.index] = batch_number
-        self.row[self.timeColumn.index] = entry_date
-        self.row[self.typeColumn.index] = category
-        self.row[self.subtypeColumn.index] = subcategory
-        self.row[self.weightColumn.index] = weight
+        self.row[columns[idColumn]] = batch_number
+        self.row[columns[timeColumn]] = entry_date
+        self.row[columns[typeColumn]] = category
+        self.row[columns[subtypeColumn]] = subcategory
+        self.row[columns[weightColumn]] = weight
 
     def iter_row(self):
         return self.row
