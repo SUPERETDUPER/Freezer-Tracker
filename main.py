@@ -20,7 +20,7 @@ class Application(tk.Tk):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 
-        self.getHeader().grid(row=0, column=0, sticky="news")  # Creates header
+        self.get_header().grid(row=0, column=0, sticky="news")  # Creates header
 
         self.mainContainer = MainContainer(self)
         self.mainContainer.grid(row=1, column=0, sticky="news")
@@ -28,7 +28,7 @@ class Application(tk.Tk):
 
         NavToolbar(self).grid(row=2, column=0, sticky="news")  # Builds nav toolbar
 
-    def getHeader(self):
+    def get_header(self):
         header = tk.Frame(self, background=constants.COMPANY_COLOUR, height=100)
         if "logo" in globalvar.images:
             tk.Label(header, image=globalvar.images["logo"], borderwidth=0).pack()
@@ -75,26 +75,26 @@ class MainContainer(tk.Frame):
         self.currentFrame = frame_name
 
         if self.previousFrame is not None:
-            self.frameHolder[self.previousFrame].resetFrame()  # Reset the frame you're done with
+            self.frameHolder[self.previousFrame].reset_frame()  # Reset the frame you're done with
 
-        self.frameHolder[self.currentFrame].setupFrame()  # Setup the new frame
+        self.frameHolder[self.currentFrame].setup_frame()  # Setup the new frame
 
         self.frameHolder[frame_name].tkraise()  # Raise frame
 
-    def goHome(self):
+    def go_home(self):
         self.show_frame(self.homeFrame)
 
-    def getUpFrame(self):
+    def get_up_frame(self):
         if self.currentFrame is not None:
             if self.frameHolder[self.currentFrame].previousFrame is None:
                 return self.previousFrame  # If no previous frame defined use previous frame by time
             else:
                 return self.frameHolder[self.currentFrame].previousFrame  # Else use defined previous frame
 
-    def goUp(self):
-        self.show_frame(self.getUpFrame())
+    def go_up(self):
+        self.show_frame(self.get_up_frame())
 
-    def getFrame(self, frame_name):
+    def get_frame(self, frame_name):
         return self.frameHolder[frame_name]  # Returns the requested frame
 
 
@@ -102,16 +102,17 @@ class NavToolbar(tk.Frame):  # Toolbar at the bottom of the page
     def __init__(self, master=None):
         super().__init__(master)
 
-        self.addButtonToFrame(helper.getMaster().goUp, globalvar.images["back"])  # Back button
+        self.add_button_to_frame(helper.get_master().go_up, globalvar.images["back"])  # Back button
 
-        self.addButtonToFrame(helper.getMaster().goHome, globalvar.images["home"])  # Home button
+        self.add_button_to_frame(helper.get_master().go_home, globalvar.images["home"])  # Home button
 
-        self.addButtonToFrame(lambda: helper.getMaster().show_frame(frame_name=frames.mainframes.TurnOffFrame.__name__),
-                              globalvar.images["power"])
+        self.add_button_to_frame(
+            lambda: helper.get_master().show_frame(frame_name=frames.mainframes.TurnOffFrame.__name__),
+            globalvar.images["power"])
 
-    def addButtonToFrame(self, command, image):
-        helper.getButton(self, command=command, background=constants.DARK_COLOUR, height=constants.NAV_BUTTON_HEIGHT,
-                         image=image).pack(side='left', fill="x", expand=True)
+    def add_button_to_frame(self, command, image):
+        helper.get_button(self, command=command, background=constants.DARK_COLOUR, height=constants.NAV_BUTTON_HEIGHT,
+                          image=image).pack(side='left', fill="x", expand=True)
 
 
 if __name__ == "__main__":
@@ -120,8 +121,8 @@ if __name__ == "__main__":
     globalvar.app.attributes('-fullscreen', True)  # Attributes
     globalvar.app.title(constants.PROJECT_TITLE)
 
-    helper.createImages()
-    helper.addOtherToMeats()
+    helper.create_images()
+    helper.add_other_to_meats()
 
     globalvar.app.setup()  # Create frames
 

@@ -1,71 +1,103 @@
+import datetime
+import os.path
+
 import openpyxl
 
-import helper
+import globalvar
 
-'''
-workbook = openpyxl.load_workbook("database.xlsx")
-db = workbook.active
-'''
-
-itemIdColumn = 0
-timestampColumn = 1
-categoryColumn = 2
-subCategoryColumn = 3
-weightColumn = 4
+db_file_path = "freezer_inventory_database.xlsx"
 
 
-def removeItem(item_id):
-    return helper.Row("Chicken", "Wings", 3, None)
+class Column:
+    def __init__(self, name, index):
+        self.name = name
+        self.index = index
 
 
-def getItemInfo(item_id):
-    return helper.Row("Chicken", "Wings", 3, None)
-    row = ""
+class Database:
+    def __init__(self):
+        # TODO : Implement edge case of reaching id 99 999
 
-    if row is None:
-        return -1
+        if os.path.isfile(db_file_path):
+            self.workbook = openpyxl.load_workbook(filename=db_file_path)  # If file exists, load it
+            self.ws = self.workbook.active
+        else:
+            self.workbook = openpyxl.Workbook()  # Else create it and create headers
+            self.ws = self.workbook.active
 
-    return helper.Row(row[categoryColumn].value, row[subCategoryColumn].value, row[weightColumn].value,
-                      row[itemIdColumn].value, entry_date=row[timestampColumn].value)
+            self.create_header()
+
+        self.last_id = 10000
+
+        for index, row in enumerate(self.ws.iter_rows(row_offset=1)):  # Loop through every row
+
+            empty = True
+
+            for cell in row:
+                if cell.value != "" and cell.value is not None:
+                    empty = False
+
+            if empty:  # If empty tracker is still True after looping through all the row's cells, this line is empty
+                self.lastRow = index
+                break
+
+            if self.last_id < row[Row.idColumn.index].value:
+                self.last_id = row[Row.idColumn.index].value
+
+    def create_header(self):
+        for column in Row.columns:
+            header_cell = self.ws.cell(row=1, column=column.index + 1)
+            header_cell.value = column.name
+
+    def save(self):
+        self.workbook.save(filename=db_file_path)
+
+    def get_info(self):
+        print("Last row : " + str(self.lastRow))
+        print("Last id :" + str(self.last_id))
+
+    def add_item(self, row):
+        return 0
+
+    def remove_item(self, batch_number):
+        return True
+
+    def get_row(self, batch_number):
+        return Row()
 
 
-def addItem(row):
-    return 10000
-    global max_row, max_id
+class Row:
+    idColumn = Column("Batch number", 0)
+    timeColumn = Column("Time stamp", 1)
+    typeColumn = Column("Type", 2)
+    subtypeColumn = Column("Sub-type", 3)
+    weightColumn = Column("Weight", 4)
 
-    new_row = db["A" + str(max_row + 1): "E" + str(max_row + 1)][0]
+    columns = [idColumn, timeColumn, typeColumn, subtypeColumn, weightColumn]
 
-    print(new_row)
+    def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None):
+        if entry_date is None:
+            entry_date = '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
 
-    new_row[categoryColumn].value = row.category
-    new_row[itemIdColumn].value = max_id + 1
-    new_row[weightColumn].value = row.weight
-    new_row[timestampColumn].value = row.entry_date
-    new_row[subCategoryColumn].value = row.subcategory
+        self.row = [None] * len(self.columns)
 
-    max_row += 1
-    max_id += 1
+        self.row[self.idColumn.index] = batch_number
+        self.row[self.timeColumn.index] = entry_date
+        self.row[self.typeColumn.index] = category
+        self.row[self.subtypeColumn.index] = subcategory
+        self.row[self.weightColumn.index] = weight
+
+    def iter_row(self):
+        return self.row
+
+    def get_item(self, index):
+        return self.row[index]
 
 
-def getMax():
-    highest_id = 10000
-    for index, row in enumerate(db.iter_rows(row_offset=1)):
-        empty = True
+def get_letter(index):
+    return chr(ord("A") + index)
 
-        for cell in row:
-            if cell.value_internal != "" and cell.value_internal is not None:
-                empty = False
 
-        if empty:
-            return index + 1, highest_id
-
-        if highest_id < row[itemIdColumn].value_internal:
-            highest_id = row[itemIdColumn].value_internal
-
-'''
-max_row, max_id = getMax()
-print(max_row, max_id)
-addItem(helper.Row("Chicken", "Wings", 3, None))
-
-workbook.save("database.xlsx")
-'''
+globalvar.database = Database()
+globalvar.database.save()
+globalvar.database.get_info()

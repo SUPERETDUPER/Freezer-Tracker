@@ -4,19 +4,20 @@ import backend
 import constants
 import frames.baseframe
 import frames.mainframes
+import globalvar
 import helper
 
 productInfo = [None, None, None]  # Tracks what the user has entered for the product
 
-gridSize = helper.generateGridSize(len(constants.meats))  # Size of the grid for the buttons
+gridSize = helper.generate_grid_size(len(constants.meats))  # Size of the grid for the buttons
 
 
 class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of meat
     def __init__(self, master):
-        super().__init__(master, buttonMainCall)
+        super().__init__(master, button_main_call)
         self.previousFrame = frames.mainframes.HomeFrame.__name__
 
-    def setupFrame(self):  # Populate with meats
+    def setup_frame(self):  # Populate with meats
         global productInfo
         productInfo[0] = None
 
@@ -30,10 +31,10 @@ class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of mea
 
 class ButtonSecondFrame(frames.baseframe.ButtonFrame):  # Select the sub type of meat
     def __init__(self, master):
-        super().__init__(master, buttonSecondCall)
+        super().__init__(master, button_second_call)
         self.previousFrame = ButtonMainFrame.__name__
 
-    def setupFrame(self):
+    def setup_frame(self):
         global productInfo
         productInfo[1] = None  # Reset product info
 
@@ -42,24 +43,24 @@ class ButtonSecondFrame(frames.baseframe.ButtonFrame):  # Select the sub type of
 
 class WeightFrame(frames.baseframe.EnterDataFrame):  # Frame to enter weight
     def __init__(self, master=None):
-        super().__init__(master, submitWeight, allow_decimal=True, title="Item weight", unit="kg", max_digits=6)
+        super().__init__(master, submit_weight, allow_decimal=True, title="Item weight", unit="kg", max_digits=6)
         self.previousFrame = ButtonMainFrame.__name__
 
 
 class ConfirmAdditionFrame(frames.baseframe.YesNoFrame):  # Frame to check input
     def __init__(self, master=None):
-        super().__init__(master, title="Add the following item to freezer?", command_no=helper.getMaster().goHome,
-                         command_yes=addProduct)
+        super().__init__(master, title="Add the following item to freezer?", command_no=helper.get_master().go_home,
+                         command_yes=add_product)
         self.previousFrame = WeightFrame.__name__
 
         self.rowFrame = None
 
-    def setRow(self, row):
-        self.rowFrame = row.getRowFrame(self.getContainer())
+    def set_row(self, row):
+        self.rowFrame = frames.baseframe.RowFrame(self.get_container(), row)
         self.rowFrame.pack(expand=True, fill="both")  # Displays row info in container
 
-    def resetFrame(self):
-        super().resetFrame()
+    def reset_frame(self):
+        super().reset_frame()
         self.rowFrame.destroy()  # Reset row
 
 
@@ -70,49 +71,50 @@ class SuccessMessage(frames.baseframe.MessageFrame):  # Message displaying batch
         super().__init__(master, title="Batch number (copy on product)", button_title="Finish")
 
 
-def buttonMainCall(index):
+def button_main_call(index):
     global productInfo
     productInfo[0] = constants.meats[index]  # Update tracker
 
     if (len(productInfo[0][1])) != 0:
-        helper.getMaster().show_frame(ButtonSecondFrame.__name__)  # If meat has sub meat go to syb meat page
+        helper.get_master().show_frame(ButtonSecondFrame.__name__)  # If meat has sub meat go to syb meat page
     else:
-        helper.getMaster().show_frame(WeightFrame.__name__)  # Else go to enter weight page
+        helper.get_master().show_frame(WeightFrame.__name__)  # Else go to enter weight page
 
 
-def buttonSecondCall(index):
+def button_second_call(index):
     global productInfo
     productInfo[1] = productInfo[0][1][index]  # Update tracker
 
-    helper.getMaster().show_frame(WeightFrame.__name__)  # Go to weight page
+    helper.get_master().show_frame(WeightFrame.__name__)  # Go to weight page
 
 
-def submitWeight(weight_submitted):
+def submit_weight(weight_submitted):
     global productInfo
     productInfo[2] = weight_submitted  # Update tracker with weight
 
-    helper.getMaster().show_frame(ConfirmAdditionFrame.__name__)  # Show confirmation page
-    helper.getMaster().getFrame(ConfirmAdditionFrame.__name__).setRow(createRow())  # Update GUI row to show selection
+    helper.get_master().show_frame(ConfirmAdditionFrame.__name__)  # Show confirmation page
+    helper.get_master().get_frame(ConfirmAdditionFrame.__name__).set_row(
+        create_row())  # Update GUI row to show selection
 
 
-def addProduct():  # Final call to add product to database
+def add_product():  # Final call to add product to database
     # Add product to database
     if productInfo[1] is None:
-        batch_id = backend.addItem(
-            helper.Row(productInfo[0][0], None, productInfo[2], None))  # If product has no sub type
+        batch_id = globalvar.database.add_item(
+            backend.Row(productInfo[0][0], None, productInfo[2], None))  # If product has no sub type
     else:
-        batch_id = backend.addItem(
-            helper.Row(productInfo[0][0], productInfo[1], productInfo[2], None))  # If product has sub type
+        batch_id = globalvar.database.add_item(
+            backend.Row(productInfo[0][0], productInfo[1], productInfo[2], None))  # If product has sub type
 
     if batch_id == -1:
         raise Exception("Could not add to database")
 
-    helper.getMaster().show_frame(SuccessMessage.__name__)  # Show success frame
+    helper.get_master().show_frame(SuccessMessage.__name__)  # Show success frame
 
-    container = helper.getMaster().getFrame(SuccessMessage.__name__).getContainer()  # Container for batch number
-    tk.Label(container, text=helper.formatBatch(batch_id),
+    container = helper.get_master().get_frame(SuccessMessage.__name__).get_container()  # Container for batch number
+    tk.Label(container, text=helper.format_batch(batch_id),
              font=constants.FONT_HUGE).pack()  # Add batch number to container
 
 
-def createRow():
-    return helper.Row(productInfo[0][0], productInfo[1], productInfo[2], None)
+def create_row():
+    return backend.Row(productInfo[0][0], productInfo[1], productInfo[2], None)
