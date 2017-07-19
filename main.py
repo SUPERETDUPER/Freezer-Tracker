@@ -65,9 +65,6 @@ class MainContainer(tk.Frame):
             self.frameHolder[frame.__name__] = frame(self)
             self.frameHolder[frame.__name__].grid(row=0, column=0, sticky="news")
 
-            if self.frameHolder[frame.__name__].previousFrame is None:
-                print(frame.__name__ + ": no previous frame name")
-
         self.show_frame(self.startupFrame)  # Raise starting frame
 
     def show_frame(self, frame_name):

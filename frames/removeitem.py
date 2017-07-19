@@ -5,8 +5,9 @@ import frames.baseframe
 import frames.mainframes
 import globalvar
 import helper
+import backend
 
-row_id = -1
+selectedRow = None
 
 
 class RemoveItemFrame(frames.baseframe.EnterDataFrame):
@@ -19,7 +20,7 @@ class RemoveItemFrame(frames.baseframe.EnterDataFrame):
 class ItemInfoFrame(frames.baseframe.YesNoFrame):  # Frame displaying item to remove
     def __init__(self, master=None):
         super().__init__(master, title="Remove the following item", command_no=helper.get_master().go_home,
-                         command_yes=lambda: remove_item(row_id))
+                         command_yes=lambda: remove_item(selectedRow))
         self.previousFrame = RemoveItemFrame.__name__
 
         self.rowFrame = None
@@ -40,19 +41,18 @@ class SuccessRemoveFrame(frames.baseframe.MessageFrame):
 
 
 def submit_batch_number(number):
-    global row_id
-    row_id = number
+    global selectedRow
 
-    row = globalvar.database.get_row(number)
+    selectedRow = globalvar.database.get_row(number)
 
     helper.get_master().show_frame(ItemInfoFrame.__name__)
-    helper.get_master().get_frame(ItemInfoFrame.__name__).set_row(row)
+    helper.get_master().get_frame(ItemInfoFrame.__name__).set_row(selectedRow)
 
 
-def remove_item(item_id):
-    result = globalvar.database.remove_item(item_id)
+def remove_item(row):
+    result = globalvar.database.remove_item(row)
 
     if result:
         helper.get_master().show_frame(SuccessRemoveFrame.__name__)
         container = helper.get_master().get_frame(SuccessRemoveFrame.__name__).get_container()
-        tk.Label(container, text=helper.format_batch(item_id), font=constants.FONT_HUGE).pack()
+        tk.Label(container, text=helper.format_batch(row.getRow()[backend.idColumn]), font=constants.FONT_HUGE).pack()

@@ -74,8 +74,10 @@ class Database:
                 self.last_id += 1
 
         self.lastRow += 1
+        self.save()
+        return self.last_id
 
-    def remove_item(self, batch_number):
+    def remove_item(self, row):
         return True
 
     def get_row(self, batch_number):
@@ -83,7 +85,7 @@ class Database:
 
 
 class Row:
-    def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None):
+    def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None, databaseRowNumber = None):
         if entry_date is None:
             entry_date = '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
 
@@ -95,6 +97,8 @@ class Row:
         self.row[columns[subtypeColumn]] = subcategory
         self.row[columns[weightColumn]] = weight
 
+        self.rowNumber = databaseRowNumber
+
     def iter_row(self):
         return self.row
 
@@ -103,8 +107,3 @@ class Row:
 
 
 globalvar.database = Database()
-
-globalvar.database.add_item(Row("Chicken", "Wings", 50))
-globalvar.database.add_item(Row("Chicken", "Wings", 3))
-
-globalvar.database.save()

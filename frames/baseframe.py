@@ -13,10 +13,10 @@ class Frame(tk.Frame):  # Base frame class building all pages of GUI
         super().__init__(master, **kwargs)
 
     def setup_frame(self):  # Executed before moving page to top of stack
-        print("Info : No setup defined " + self.__class__.__name__)
+        pass
 
     def reset_frame(self):  # Executed when moving away from frame, raising a new frame
-        print("Info : No reset defined " + self.__class__.__name__)
+        pass
 
 
 class EnterDataFrame(Frame):  # GUI to enter numbers
