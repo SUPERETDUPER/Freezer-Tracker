@@ -61,7 +61,6 @@ class MainContainer(tk.Frame):
 
         # Create and add to frames dict
         for frame in self.all_frames:
-
             self.frameHolder[frame.__name__] = frame(self)
             self.frameHolder[frame.__name__].grid(row=0, column=0, sticky="news")
 

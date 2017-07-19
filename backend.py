@@ -78,14 +78,22 @@ class Database:
         return self.last_id
 
     def remove_item(self, row):
-        return True
+        print(row.rowNumber, self.lastRow)
+        previous_row = self.ws[row.rowNumber]
+        for row in self.ws.iter_rows(min_row=row.rowNumber + 1, max_row=self.lastRow + 1):
+            for index, cell in enumerate(row):
+                previous_row[index].value = cell.value
+
+            previous_row = row
+        self.save()
 
     def get_row(self, batch_number):
         return Row()
 
 
 class Row:
-    def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None, databaseRowNumber = None):
+    def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None,
+                 databaseRowNumber=None):
         if entry_date is None:
             entry_date = '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
 
