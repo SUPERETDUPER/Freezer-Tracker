@@ -115,15 +115,14 @@ class NavToolbar(tk.Frame):  # Toolbar at the bottom of the page
 
 
 if __name__ == "__main__":
-    if True:
-        globalvar.app = Application()  # Create app
+    globalvar.app = Application()  # Create app
 
-        globalvar.app.attributes('-fullscreen', True)  # Attributes
-        globalvar.app.title(constants.PROJECT_TITLE)
+    globalvar.app.attributes('-fullscreen', True)  # Attributes
+    globalvar.app.title(constants.PROJECT_TITLE)
 
-        helper.createImages()
-        helper.addOtherToMeats()
+    helper.createImages()
+    helper.addOtherToMeats()
 
-        globalvar.app.setup()  # Create frames
+    globalvar.app.setup()  # Create frames
 
-        globalvar.app.mainloop()  # Start GUI
+    globalvar.app.mainloop()  # Start GUI
