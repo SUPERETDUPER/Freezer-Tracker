@@ -1,5 +1,9 @@
-# freezer_tracker
+# Freezer Tracker
 
-This project is a GUI to easly add and remove item's from a freezer while keeping track of inventory in a excel database.
+This project allows you to easily add, remove and track item's in a freezer or fridge.
 
-It is built using Python. The GUI is built with tkinter and interaction with the excel database goes through openpyxl.
+It keeps track of the type, sub-type, weight and entry date.
+
+It is built using Python. The GUI is built with tkinter and interaction with the excel database goes through openpyxl library.
+
+Run on a raspberry pi with the 7' touch screen

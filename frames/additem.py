@@ -20,6 +20,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Frames dealing with adding items to the database.
+
+Tracks the current selection through productInfo which gets reset when coming back to the frame.
 """
 import tkinter as tk
 
@@ -49,7 +53,7 @@ class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of mea
         for meat in constants.meats:
             meats_main.append(meat[0])
 
-        self.populate(meats_main, gridSize)
+        self.populate(meats_main, gridSize)  # Populate based on meat list
 
 
 class ButtonSecondFrame(frames.baseframe.ButtonFrame):  # Select the sub type of meat
@@ -70,48 +74,48 @@ class WeightFrame(frames.baseframe.EnterDataFrame):  # Frame to enter weight
         self.previousFrame = ButtonMainFrame.__name__
 
 
-class ConfirmAdditionFrame(frames.baseframe.YesNoFrame):  # Frame to check input
+class ConfirmAdditionFrame(frames.baseframe.YesNoFrame):  # Frame to confirm input
     def __init__(self, master=None):
         super().__init__(master, title="Add the following item to freezer?", command_no=helper.get_master().go_home,
                          command_yes=add_product)
         self.previousFrame = WeightFrame.__name__
 
-        self.rowFrame = None
+        self.rowFrame = None  # Frame where the data is displayed
 
     def set_row(self, row):
         self.rowFrame = frames.baseframe.RowFrame(self.get_container(), row)
-        self.rowFrame.pack(expand=True, fill="both")  # Displays row info in container
+        self.rowFrame.pack(expand=True, fill="both")  # Displays data row in container
 
     def reset_frame(self):
         super().reset_frame()
-        self.rowFrame.destroy()  # Reset row
+        self.rowFrame.destroy()  # Reset data row
 
 
-class SuccessMessage(frames.baseframe.MessageFrame):  # Message displaying batch number
+class SuccessMessage(frames.baseframe.MessageFrame):  # Message displaying generated batch number
     previousFrame = frames.mainframes.HomeFrame.__name__
 
     def __init__(self, master):
         super().__init__(master, title="Batch number (copy on product)", button_title="Finish")
 
 
-def button_main_call(index):
+def button_main_call(index):  # Method called when main meat type selected
     global productInfo
     productInfo[0] = constants.meats[index]  # Update tracker
 
     if (len(productInfo[0][1])) != 0:
-        helper.get_master().show_frame(ButtonSecondFrame.__name__)  # If meat has sub meat go to syb meat page
+        helper.get_master().show_frame(ButtonSecondFrame.__name__)  # If meat has sub meat go to sub meat page
     else:
         helper.get_master().show_frame(WeightFrame.__name__)  # Else go to enter weight page
 
 
-def button_second_call(index):
+def button_second_call(index):  # Method called when sub meat type selected
     global productInfo
     productInfo[1] = productInfo[0][1][index]  # Update tracker
 
     helper.get_master().show_frame(WeightFrame.__name__)  # Go to weight page
 
 
-def submit_weight(weight_submitted):
+def submit_weight(weight_submitted):  # Method called when weight submitted
     global productInfo
     productInfo[2] = weight_submitted  # Update tracker with weight
 
@@ -120,14 +124,14 @@ def submit_weight(weight_submitted):
         create_row())  # Update GUI row to show selection
 
 
-def add_product():  # Final call to add product to database
+def add_product():  # Method called when confirmed object removal
     # Add product to database
     if productInfo[1] is None:
         batch_id = globalvar.database.add_item(
             backend.Row(category=productInfo[0][0], weight=productInfo[2]))  # If product has no sub type
     else:
-        batch_id = globalvar.database.add_item(
-            backend.Row(category=productInfo[0][0], subcategory=productInfo[1], weight=productInfo[2]))  # If product has sub type
+        batch_id = globalvar.database.add_item(backend.Row(category=productInfo[0][0], subcategory=productInfo[1],
+                                                           weight=productInfo[2]))  # If product has sub type
 
     if batch_id == -1:
         raise Exception("Could not add to database")
@@ -139,5 +143,5 @@ def add_product():  # Final call to add product to database
              font=constants.FONT_HUGE).pack()  # Add batch number to container
 
 
-def create_row():
+def create_row():  # Creates a row object based on tracker
     return backend.Row(productInfo[0][0], productInfo[1], productInfo[2], None)

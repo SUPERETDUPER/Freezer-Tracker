@@ -30,10 +30,12 @@ BUTTON_PADDING_Y = 5
 BUTTON_HEIGHT = 3
 NAV_BUTTON_HEIGHT = 115
 MAIN_CONTAINER_PADDING = 50
+
 FONT_SMALL = ("TkDefaultFont", 20)
 FONT = ("TkDefaultFont", 35)
 FONT_LARGE = ("TkDefaultFont", 50)
 FONT_HUGE = ("TkDefaultFont", 80)
+
 meats = [("Chicken", ["Breast", "Wings", "Legs"]),
          ("Beef", ["Rib"]),
          ("Lamb", []),
@@ -46,6 +48,7 @@ meats = [("Chicken", ["Breast", "Wings", "Legs"]),
          ("Pork", []),
          ("Pork", []),
          ("Pork", [])]
+
 imageNames = {"home": "ic_action_home.png",
               "back": "ic_action_undo.png",
               "power": "ic_action_io.png",
@@ -57,11 +60,14 @@ imageNames = {"home": "ic_action_home.png",
               "logo": "ic_logo.png",
               "eye": "ic_visibility_white_36pt_3x.png"
               }
+
 DARK_COLOUR = "#B10000"
 LIGHT_COLOUR = "#FF623A"
 PROJECT_TITLE = "Freezer inventory"
+
 PADDING_BUTTON_FRAME = 10
 LENGTH_OF_BATCH_NUMBER = 5
+
 idColumn = "Batch number"
 timeColumn = "Time stamp"
 typeColumn = "Type"
@@ -74,4 +80,5 @@ columns = collections.OrderedDict([(idColumn, 0),
                                    (subtypeColumn, 3),
                                    (weightColumn, 4),
                                    (removedColumn, 5)])
+
 db_file_path = "freezer_inventory_database.xlsx"
