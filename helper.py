@@ -33,6 +33,7 @@ import globalvar
 
 import datetime
 
+
 def get_button(master, font=constants.FONT, padx=constants.BUTTON_PADDING_X, pady=constants.BUTTON_PADDING_Y,
                foreground="white",
                background=constants.COMPANY_COLOUR,
@@ -44,6 +45,16 @@ def get_button(master, font=constants.FONT, padx=constants.BUTTON_PADDING_X, pad
 
 def turn_off():
     globalvar.app.destroy()  # Quit project
+
+
+def generate_number_of_items():
+    max_len = len(constants.meats)
+
+    for index in range(len(constants.meats)):
+        if len(constants.meats[index][1]) > max_len:
+            max_len = len(constants.meats[index][1])
+
+    return max_len
 
 
 def generate_grid_size(num_of_items):  # Generate optimal grid side length based on number of items

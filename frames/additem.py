@@ -36,7 +36,7 @@ import helper
 
 productInfo = [None, None, None]  # Tracks what the user has entered for the product
 
-gridSize = helper.generate_grid_size(len(constants.meats))  # Size of the grid for the buttons
+gridSize = helper.generate_grid_size(helper.generate_number_of_items())  # Size of the grid for the buttons
 
 
 class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of meat

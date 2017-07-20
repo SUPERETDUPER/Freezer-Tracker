@@ -36,18 +36,10 @@ FONT = ("TkDefaultFont", 35)
 FONT_LARGE = ("TkDefaultFont", 50)
 FONT_HUGE = ("TkDefaultFont", 80)
 
-meats = [("Chicken", ["Breast", "Wings", "Legs"]),
-         ("Beef", ["Rib"]),
-         ("Lamb", []),
-         ("Bacon", []),
-         ("Duck", []),
-         ("Pork", []),
-         ("Pork", []),
-         ("Pork", []),
-         ("Pork", []),
-         ("Pork", []),
-         ("Pork", []),
-         ("Pork", [])]
+meats = [("Turkey", ["Breast", "Thigh", "Skin", "Fine textured", "Scap", "MSM", "Dark trim", "White trim", "Fat"]),
+         ("Chicken", ["Breast","Thigh", "Skin", "Fine textured", "MSM", "Wings", "Drums", "Dark trim", "White trim"]),
+         ("Pork", ["Backfat", "Ham fat", "Belly", "Whole Ham", "Picnic shoulder", "Shanks", "Skin", "Loin", "Tenderloin", "Hearts", "Jowls", "Fine textured"]),
+         ("Beef", ["50/50 trim", "60/40 trim", "65/35 trim", "70/30 trim", "80/20 trim", "85/15 trim", "90/10 trim", "Chuck", "Eye of round", "Inside", "Outside", "Heart"])]
 
 imageNames = {"home": "ic_action_home.png",
               "back": "ic_action_undo.png",
@@ -65,7 +57,7 @@ DARK_COLOUR = "#B10000"
 LIGHT_COLOUR = "#FF623A"
 PROJECT_TITLE = "Freezer inventory"
 
-PADDING_BUTTON_FRAME = 10
+PADDING_BUTTON_FRAME = 5
 LENGTH_OF_BATCH_NUMBER = 5
 
 idColumn = "Batch number"
