@@ -20,6 +20,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+File containing helper frames and general purpose frames. Other frames are based of these frames.
+
+All frames which act as windows should have as parent class Frame
+
 """
 import tkinter as tk
 
@@ -231,16 +236,18 @@ class YesNoFrame(Frame):  # Frame containing a title, container and yes and no b
 
         button_padding = 100
 
+        # No Button
         helper.get_button(button_frame, text="No", command=command_no, height=constants.BUTTON_HEIGHT,
                           padx=button_padding) \
-            .grid(row=0, column=0)  # No Button
+            .grid(row=0, column=0)
         button_frame.grid_columnconfigure(0, weight=1)
 
         tk.Frame(button_frame, width=constants.SPACING_BETWEEN_BUTTONS).grid(row=0, column=1)  # Spacer
 
+        # Yes Button
         helper.get_button(button_frame, text="Yes", command=command_yes, background=constants.LIGHT_COLOUR,
                           padx=button_padding,
-                          height=constants.BUTTON_HEIGHT).grid(row=0, column=2)  # Yes Button
+                          height=constants.BUTTON_HEIGHT).grid(row=0, column=2)
         button_frame.grid_columnconfigure(2, weight=1)
 
     def get_container(self):
@@ -254,7 +261,7 @@ class MessageFrame(Frame):  # Frame displaying title, container and (home) butto
     def __init__(self, master, title="", button_title="Home", command=lambda: helper.get_master().go_home()):
         super().__init__(master)
 
-        self.message_frame = TitleAndContainer(self, title)
+        self.message_frame = TitleAndContainer(self, title)  # Title and container
         self.message_frame.pack(fill="both", expand=True)
 
         helper.get_button(self, text=button_title, command=command, height=3, width=10).pack()  # (Home) Button
@@ -266,22 +273,25 @@ class MessageFrame(Frame):  # Frame displaying title, container and (home) butto
         self.message_frame.reset_container()
 
 
-class RowFrame(tk.Frame):
+class RowFrame(tk.Frame):  # Frame displaying a database row
     def __init__(self, master, row):
         super().__init__(master)
 
         for index, column in enumerate(constants.columns):
+
+            # Don't display the removed column in database because it's not applicable
             if column == constants.removedColumn:
                 continue
-            tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=column).grid(row=0,
-                                                                                                  column=index,
-                                                                                                  sticky="we")
+
+            # Header cell
+            tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=column).grid(
+                row=0, column=index, sticky="we")
             self.grid_columnconfigure(index, weight=1)
 
+            # Data cell
             if row.get_item(index) is not None:
                 tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=str(row.get_item(index))).grid(
-                    row=1, column=index, sticky="we")
+                    row=1, column=index, sticky="we")  # If has a value
             else:
-                tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text="---").grid(row=1,
-                                                                                                     column=index,
-                                                                                                     sticky="we")
+                tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text="---").grid(
+                    row=1, column=index, sticky="we")  # If no value replace with "---"

@@ -20,6 +20,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Contains Home frame and turn off frame
+
 """
 import tkinter as tk
 
@@ -31,7 +34,7 @@ import globalvar
 import helper
 
 
-class HomeFrame(frames.baseframe.Frame):
+class HomeFrame(frames.baseframe.Frame):  # Frame displayed at start
     def __init__(self, master=None):
         super().__init__(master)
 

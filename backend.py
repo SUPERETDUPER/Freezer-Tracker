@@ -20,24 +20,25 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Backend code with database operations.
+
 """
-import datetime
 import os.path
 
 import openpyxl
 
+import constants
 import globalvar
-from constants import idColumn, timeColumn, typeColumn, subtypeColumn, weightColumn, removedColumn, columns, \
-    db_file_path
+import helper
 
 
 class Database:
-
-    last_id = 9999
+    next_id = 10000
 
     def __init__(self):
-        if os.path.isfile(db_file_path):
-            self.workbook = openpyxl.load_workbook(filename=db_file_path)  # If file exists, load it
+        if os.path.isfile(constants.db_file_path):
+            self.workbook = openpyxl.load_workbook(filename=constants.db_file_path)  # If file exists, load it
             self.ws = self.workbook.active
         else:
             self.workbook = openpyxl.Workbook()  # Else create it and create headers
@@ -57,76 +58,84 @@ class Database:
                 self.lastRow = index + 1
                 break
 
-            if self.last_id < row[columns[idColumn]].value:  # Update to get latest id assigned
-                self.last_id = row[columns[idColumn]].value
+            if self.next_id < row[constants.columns[constants.idColumn]].value + 1:  # Update to get latest id assigned
+                self.next_id = row[constants.columns[constants.idColumn]].value + 1
 
-    def create_header(self):
-        for column in columns.keys():
-            header_cell = self.ws.cell(row=1, column=columns[column] + 1)
+    def create_header(self):  # Used to create a new database's headers
+        for column in constants.columns.keys():
+            header_cell = self.ws.cell(row=1, column=constants.columns[column] + 1)
             header_cell.value = column
 
-    def save(self):
-        self.workbook.save(filename=db_file_path)
+    def save(self):  # Save workbook
+        self.workbook.save(filename=constants.db_file_path)
 
-    def add_item(self, row):
-        empty_row = self.ws[self.lastRow + 1]
+    def add_item(self, row):  # Add a row to the database and return generated id
+        empty_row = self.ws[self.lastRow + 1]  # Empty row to fill
 
-        for index, cell in enumerate(columns):
+        for index, cell in enumerate(constants.columns):  # For every cell in empty_row
 
-            value = row.get_row()[index]
+            value = row.get_row()[index]  # Get value to fill
 
             if value is not None:
-                empty_row[index].value = row.get_row()[index]
+                empty_row[index].value = row.get_row()[index]  # If value exists fill it in
 
-            if index == 0:
-                empty_row[index].value = self.last_id + 1
-                self.last_id += 1
+            if index == 0:  # Generate index
+                empty_row[index].value = self.next_id  # Assign batch number
+                self.next_id += 1
 
-        empty_row[columns[removedColumn]].value = False
+        empty_row[constants.columns[constants.removedColumn]].value = False  # Set removed to false
 
         self.lastRow += 1
+
         self.save()
-        return self.last_id
+
+        return self.next_id - 1
 
     def remove_item(self, batch_number):
-        row = self.get_row(batch_number)
+        row = self.get_row(batch_number)  # Get row to set to removed
         if row == -1:
             return False
 
-        row[columns[removedColumn]].value = True
+        row[constants.columns[constants.removedColumn]].value = True
 
         self.save()
         return True
 
     def get_info(self, batch_number):
-        row = self.get_row(batch_number)
-        if row == -1:
+
+        row = self.get_row(batch_number)  # get row with info
+
+        if row == -1:  # If row does not exist return False
             return False
-        if row[columns[removedColumn]].value is True:
-            return False
-        return Row(batch_number=row[columns[idColumn]].value, category=row[columns[typeColumn]].value,
-                   subcategory=row[columns[subtypeColumn]].value, weight=row[columns[weightColumn]].value,
-                   entry_date=row[columns[timeColumn]].value)
+
+        if row[constants.columns[constants.removedColumn]].value is True:
+            return False  # If row already removed return False
+
+        return Row(batch_number=row[constants.columns[constants.idColumn]].value,
+                   category=row[constants.columns[constants.typeColumn]].value,
+                   subcategory=row[constants.columns[constants.subtypeColumn]].value,
+                   weight=row[constants.columns[constants.weightColumn]].value,
+                   entry_date=row[constants.columns[constants.timeColumn]].value)
 
     def get_row(self, batch_number):
-        for index, row in enumerate(self.ws.iter_rows(row_offset=1)):
-            if row[columns[idColumn]].value == batch_number:
+        for index, row in enumerate(self.ws.iter_rows(row_offset=1)):  # Loop through every row
+            if row[constants.columns[constants.idColumn]].value == batch_number:  # If batch number matches return row
                 return row
-        return -1
+        return -1  # Else return -1
 
 
-class Row:
+class Row:  # Row object storing row data
     def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None):
         if entry_date is None:
-            entry_date = '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
+            entry_date = helper.get_current_date()
 
-        self.row = [None] * len(columns)
+        self.row = [None] * len(constants.columns)
 
-        self.row[columns[idColumn]] = batch_number
-        self.row[columns[timeColumn]] = entry_date
-        self.row[columns[typeColumn]] = category
-        self.row[columns[subtypeColumn]] = subcategory
-        self.row[columns[weightColumn]] = weight
+        self.row[constants.columns[constants.idColumn]] = batch_number
+        self.row[constants.columns[constants.timeColumn]] = entry_date
+        self.row[constants.columns[constants.typeColumn]] = category
+        self.row[constants.columns[constants.subtypeColumn]] = subcategory
+        self.row[constants.columns[constants.weightColumn]] = weight
 
     def get_row(self):
         return self.row
