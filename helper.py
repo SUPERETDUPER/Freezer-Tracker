@@ -75,6 +75,9 @@ def create_images():  # Creates the images and assigns them to the global variab
         except tk.TclError:
             print("No image :" + image)
 
+    if "logo" in globalvar.images:
+        globalvar.images["logo"].subsample(3)
+
 
 def get_master():  # Return the container for the frames
     return globalvar.app.mainContainer
