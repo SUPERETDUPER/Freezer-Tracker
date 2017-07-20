@@ -71,12 +71,12 @@ def add_other_to_meats():  # Add the "Other" option to meat cuts
 def create_images():  # Creates the images and assigns them to the global variable images.
     for image in constants.imageNames.keys():
         try:
-            globalvar.images[image] = tk.PhotoImage(file="res/" + constants.imageNames[image])
+            globalvar.images[image] = tk.PhotoImage(file="res/" + constants.imageNames[image]).subsample(5)
         except tk.TclError:
             print("No image :" + image)
 
     if "logo" in globalvar.images:
-        globalvar.images["logo"].subsample(3)
+        globalvar.images["logo"] = globalvar.images["logo"].subsample(3)
 
 
 def get_master():  # Return the container for the frames

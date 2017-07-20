@@ -24,17 +24,17 @@ SOFTWARE.
 import collections
 
 COMPANY_COLOUR = "#EC2409"
-SPACING_BETWEEN_BUTTONS = 40
-BUTTON_PADDING_X = 10
-BUTTON_PADDING_Y = 5
-BUTTON_HEIGHT = 3
-NAV_BUTTON_HEIGHT = 115
-MAIN_CONTAINER_PADDING = 50
+SPACING_BETWEEN_BUTTONS = 10
+BUTTON_PADDING_X = 2
+BUTTON_PADDING_Y = 1
+BUTTON_HEIGHT = 1
+NAV_BUTTON_HEIGHT = 25
+MAIN_CONTAINER_PADDING = 10
 
-FONT_SMALL = ("TkDefaultFont", 20)
-FONT = ("TkDefaultFont", 35)
-FONT_LARGE = ("TkDefaultFont", 50)
-FONT_HUGE = ("TkDefaultFont", 80)
+FONT_SMALL = ("TkDefaultFont", 5)
+FONT = ("TkDefaultFont", 10)
+FONT_LARGE = ("TkDefaultFont", 12)
+FONT_HUGE = ("TkDefaultFont", 20)
 
 meats = [("Turkey", ["Breast", "Thigh", "Skin", "Fine textured", "Scap", "MSM", "Dark trim", "White trim", "Fat"]),
          ("Chicken", ["Breast","Thigh", "Skin", "Fine textured", "MSM", "Wings", "Drums", "Dark trim", "White trim"]),
@@ -57,7 +57,7 @@ DARK_COLOUR = "#B10000"
 LIGHT_COLOUR = "#FF623A"
 PROJECT_TITLE = "Freezer inventory"
 
-PADDING_BUTTON_FRAME = 5
+PADDING_BUTTON_FRAME = 1
 LENGTH_OF_BATCH_NUMBER = 5
 
 idColumn = "Batch number"
