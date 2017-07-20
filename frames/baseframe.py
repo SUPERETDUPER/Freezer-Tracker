@@ -283,6 +283,10 @@ class RowFrame(tk.Frame):  # Frame displaying a database row
             if column == constants.removedColumn:
                 continue
 
+            # If batch number is not existent don't show it
+            if column == constants.idColumn and row.get_item(index) is None:
+                continue
+
             # Header cell
             tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=column).grid(
                 row=0, column=index, sticky="we")
