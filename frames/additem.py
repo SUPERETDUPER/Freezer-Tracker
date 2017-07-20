@@ -124,10 +124,10 @@ def add_product():  # Final call to add product to database
     # Add product to database
     if productInfo[1] is None:
         batch_id = globalvar.database.add_item(
-            backend.Row(productInfo[0][0], None, productInfo[2], None))  # If product has no sub type
+            backend.Row(category=productInfo[0][0], weight=productInfo[2]))  # If product has no sub type
     else:
         batch_id = globalvar.database.add_item(
-            backend.Row(productInfo[0][0], productInfo[1], productInfo[2], None))  # If product has sub type
+            backend.Row(category=productInfo[0][0], subcategory=productInfo[1], weight=productInfo[2]))  # If product has sub type
 
     if batch_id == -1:
         raise Exception("Could not add to database")

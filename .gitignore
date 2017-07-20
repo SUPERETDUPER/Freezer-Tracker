@@ -1,0 +1,5 @@
+.idea/
+res/ic_logo.png
+__pycache__/
+frames/__pycache__
+freezer_inventory_database.xlsx

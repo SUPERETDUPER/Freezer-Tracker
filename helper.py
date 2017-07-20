@@ -56,7 +56,7 @@ def add_other_to_meats():
 def create_images():
     for image in constants.imageNames.keys():
         try:
-            globalvar.images[image] = tk.PhotoImage(file=constants.imageNames[image])
+            globalvar.images[image] = tk.PhotoImage(file="res/" + constants.imageNames[image])
         except tk.TclError:
             print("No image :" + image)
 
