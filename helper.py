@@ -25,6 +25,7 @@ Helper methods for the project
 
 """
 import os
+from sys import platform
 import tkinter as tk
 from math import ceil
 
@@ -90,8 +91,10 @@ def format_batch(batch):  # Formats a 5 digit batch number in the form 10 000
 
 
 def view_in_excel():  # Opens the database in excel
-    os.system("start " + constants.db_file_path)
-
+    if platform == "win32":
+        os.system("start " + constants.db_file_path)
+    else :
+        os.system("libreoffice ./" + constants.db_file_path)
 
 def get_current_date():
     return '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
