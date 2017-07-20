@@ -28,7 +28,6 @@ SPACING_BETWEEN_BUTTONS = 40
 BUTTON_PADDING_X = 10
 BUTTON_PADDING_Y = 5
 BUTTON_HEIGHT = 3
-NAV_BUTTON_HEIGHT = 115
 MAIN_CONTAINER_PADDING = 50
 
 FONT_SMALL = ("TkDefaultFont", 20)
@@ -41,16 +40,16 @@ meats = [("Turkey", ["Breast", "Thigh", "Skin", "Fine textured", "Scap", "MSM", 
          ("Pork", ["Backfat", "Ham fat", "Belly", "Whole Ham", "Picnic shoulder", "Shanks", "Skin", "Loin", "Tenderloin", "Hearts", "Jowls", "Fine textured"]),
          ("Beef", ["50/50 trim", "60/40 trim", "65/35 trim", "70/30 trim", "80/20 trim", "85/15 trim", "90/10 trim", "Chuck", "Eye of round", "Inside", "Outside", "Heart"])]
 
-imageNames = {"home": "ic_action_home.png",
-              "back": "ic_action_undo.png",
-              "power": "ic_action_io.png",
-              "add": "ic_action_add.png",
-              "remove": "ic_action_minus.png",
-              "clock": "ic_action_clock.png",
-              "arrowLeft": "ic_action_arrow_left.png",
-              "tick": "ic_action_tick.png",
-              "logo": "ic_logo.png",
-              "eye": "ic_visibility_white_36pt_3x.png"
+imageNames = {"home": ("ic_action_home.png", 2),
+              "back": ("ic_action_undo.png", 2),
+              "power": ("ic_action_io.png", 2),
+              "add": ("ic_action_add.png", 2),
+              "remove": ("ic_action_minus.png", 2),
+              "clock": ("ic_action_clock.png", 1),
+              "arrowLeft": ("ic_action_arrow_left.png", 1),
+              "tick": ("ic_action_tick.png", 1),
+              "logo": ("ic_logo.png", 3),
+              "eye": ("ic_visibility_white_36pt_3x.png",  2)
               }
 
 DARK_COLOUR = "#B10000"

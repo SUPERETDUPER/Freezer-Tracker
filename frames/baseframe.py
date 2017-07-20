@@ -142,7 +142,7 @@ class Keypad(tk.Frame):  # Class that tracks keypad input
             self.get_keypad_button(text=".", command=lambda: self.add_digit(".")).grid(row=3, column=0, sticky="news")
 
     def get_keypad_button(self, command, image=None, text=None):
-        return helper.get_button(self, text=text, font=constants.FONT_HUGE, padx=70, command=command, image=image)
+        return helper.get_button(self, text=text, font=constants.FONT_HUGE, padx=30, command=command, image=image)
 
     def add_digit(self, digit):
         if self.maxDigits is None or len(self.value) < self.maxDigits:  # If not passed max_digits add digit

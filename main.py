@@ -132,7 +132,7 @@ class NavToolbar(tk.Frame):  # Toolbar at the bottom of the page
             globalvar.images["power"])
 
     def add_button_to_frame(self, command, image):
-        helper.get_button(self, command=command, background=constants.DARK_COLOUR, height=constants.NAV_BUTTON_HEIGHT,
+        helper.get_button(self, command=command, background=constants.DARK_COLOUR,
                           image=image).pack(side='left', fill="x", expand=True)
 
 
@@ -141,6 +141,7 @@ if __name__ == "__main__":
 
     globalvar.app.attributes('-fullscreen', True)  # Attributes
     globalvar.app.title(constants.PROJECT_TITLE)
+    globalvar.app.tk.call("tk", "scaling", 0.5)
 
     helper.create_images()
     helper.add_other_to_meats()
