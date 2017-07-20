@@ -27,13 +27,12 @@ COMPANY_COLOUR = "#EC2409"
 SPACING_BETWEEN_BUTTONS = 40
 BUTTON_PADDING_X = 10
 BUTTON_PADDING_Y = 5
-BUTTON_HEIGHT = 3
-MAIN_CONTAINER_PADDING = 50
+BUTTON_HEIGHT = 4
+MAIN_CONTAINER_PADDING = 15
 
-FONT_SMALL = ("TkDefaultFont", 20)
-FONT = ("TkDefaultFont", 35)
-FONT_LARGE = ("TkDefaultFont", 50)
-FONT_HUGE = ("TkDefaultFont", 80)
+FONT = ("TkDefaultFont", 17)
+FONT_LARGE = ("TkDefaultFont", 25)
+FONT_HUGE = ("TkDefaultFont", 40)
 
 meats = [("Turkey", ["Breast", "Thigh", "Skin", "Fine textured", "Scap", "MSM", "Dark trim", "White trim", "Fat"]),
          ("Chicken", ["Breast","Thigh", "Skin", "Fine textured", "MSM", "Wings", "Drums", "Dark trim", "White trim"]),
