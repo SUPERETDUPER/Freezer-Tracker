@@ -35,8 +35,10 @@ import helper
 
 
 class HomeFrame(frames.baseframe.Frame):  # Frame displayed at start
+
     def __init__(self, master=None):
         super().__init__(master)
+        self.previousFrame = self.__class__.__name__
 
         self.add_button_to_frame(text="Add new item",
                                  command=lambda: helper.get_master().show_frame(
