@@ -98,6 +98,8 @@ class Database:
 
         row[constants.columns[constants.removedColumn]].value = "True"
 
+        row[constants.columns[constants.removedTimeColumn]].value = helper.get_current_date()
+
         self.save()
         return True
 

@@ -64,11 +64,13 @@ typeColumn = "Type"
 subtypeColumn = "Sub-type"
 weightColumn = "Weight"
 removedColumn = "Removed ?"
+removedTimeColumn = "Removal time stamp"
 columns = collections.OrderedDict([(idColumn, 0),
                                    (timeColumn, 1),
                                    (typeColumn, 2),
                                    (subtypeColumn, 3),
                                    (weightColumn, 4),
-                                   (removedColumn, 5)])
+                                   (removedColumn, 5),
+                                   (removedTimeColumn, 6)])
 
 db_file_path = "freezer_inventory_database.xlsx"
