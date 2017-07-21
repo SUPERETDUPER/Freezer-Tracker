@@ -83,6 +83,8 @@ class EnterDataFrame(Frame):  # GUI to enter numbers
 
         self.update_label(self.keypad.get_value())
 
+        self.make_confirm_disabled()
+
     def update_label(self, value):
         if self.unit is not None:
             value += " " + self.unit
