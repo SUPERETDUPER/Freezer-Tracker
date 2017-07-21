@@ -83,7 +83,7 @@ class Database:
                 empty_row[index].value = self.next_id  # Assign batch number
                 self.next_id += 1
 
-        empty_row[constants.columns[constants.removedColumn]].value = False  # Set removed to false
+        empty_row[constants.columns[constants.removedColumn]].value = "False"  # Set removed to false
 
         self.lastRow += 1
 
@@ -96,7 +96,7 @@ class Database:
         if row == -1:
             return False
 
-        row[constants.columns[constants.removedColumn]].value = True
+        row[constants.columns[constants.removedColumn]].value = "True"
 
         self.save()
         return True
