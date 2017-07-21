@@ -69,14 +69,21 @@ class NoItemFrame(frames.baseframe.MessageFrame):  # Frame showing the batch num
         super().__init__(master, title="No such product")
 
 
+class AlreadyRemovedFrame(frames.baseframe.MessageFrame):  # Frame showing the batch number does not correspond
+    def __init__(self, master):
+        super().__init__(master, title="Product already removed")
+
+
 def submit_batch_number(number):
     global idNumber
     idNumber = number
 
     row = globalvar.database.get_info(number)  # Get row object for batch number
 
-    if row is False:
+    if row == constants.ERROR_NO_SUCH_ITEM:
         helper.get_master().show_frame(NoItemFrame.__name__)  # If no such row show no item frame
+    elif row == constants.ERROR_ITEM_REMOVED:
+        helper.get_master().show_frame(AlreadyRemovedFrame.__name__)  # If row already removed show frame
     else:
         helper.get_master().show_frame(ItemInfoFrame.__name__)  # Else show confirm frame
         helper.get_master().get_frame(ItemInfoFrame.__name__).set_row(row)  # And display data
@@ -85,10 +92,10 @@ def submit_batch_number(number):
 def remove_item(batch_number):  # Called when asked to remove item
     result = globalvar.database.remove_item(batch_number)  # Remove item from db
 
-    if result: # If success
+    if result:  # If success
         helper.get_master().show_frame(SuccessRemoveFrame.__name__)
         container = helper.get_master().get_frame(SuccessRemoveFrame.__name__).get_container()  # Show success frame
         tk.Label(container, text=helper.format_batch(batch_number),
                  font=constants.FONT_HUGE).pack()  # Add label with product number
     else:
-        raise (Exception("No such product in database"))  # If failed raise Exception
+        raise (Exception("Unable to complete database operation"))  # If failed raise Exception

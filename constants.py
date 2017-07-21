@@ -74,3 +74,5 @@ columns = collections.OrderedDict([(idColumn, 0),
                                    (removedTimeColumn, 6)])
 
 db_file_path = "freezer_inventory_database.xlsx"
+ERROR_ITEM_REMOVED = 100
+ERROR_NO_SUCH_ITEM = 101

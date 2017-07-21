@@ -31,6 +31,7 @@ import openpyxl
 import constants
 import globalvar
 import helper
+from constants import ERROR_ITEM_REMOVED, ERROR_NO_SUCH_ITEM
 
 
 class Database:
@@ -93,8 +94,11 @@ class Database:
 
     def remove_item(self, batch_number):
         row = self.get_row(batch_number)  # Get row to set to removed
-        if row == -1:
-            return False
+        if row == ERROR_NO_SUCH_ITEM:
+            return ERROR_NO_SUCH_ITEM
+
+        if row[constants.columns[constants.removedColumn]].value == "True":
+            return ERROR_ITEM_REMOVED
 
         row[constants.columns[constants.removedColumn]].value = "True"
 
@@ -107,11 +111,11 @@ class Database:
 
         row = self.get_row(batch_number)  # get row with info
 
-        if row == -1:  # If row does not exist return False
-            return False
+        if row == ERROR_NO_SUCH_ITEM:  # If row does not exist return False
+            return ERROR_NO_SUCH_ITEM
 
-        if row[constants.columns[constants.removedColumn]].value is True:
-            return False  # If row already removed return False
+        if row[constants.columns[constants.removedColumn]].value == "True":
+            return ERROR_ITEM_REMOVED  # If row already removed return False
 
         return Row(batch_number=row[constants.columns[constants.idColumn]].value,
                    category=row[constants.columns[constants.typeColumn]].value,
@@ -123,7 +127,7 @@ class Database:
         for index, row in enumerate(self.ws.iter_rows(row_offset=1)):  # Loop through every row
             if row[constants.columns[constants.idColumn]].value == batch_number:  # If batch number matches return row
                 return row
-        return -1  # Else return -1
+        return ERROR_NO_SUCH_ITEM  # Else return -1
 
 
 class Row:  # Row object storing row data
