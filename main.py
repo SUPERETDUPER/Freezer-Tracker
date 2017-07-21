@@ -141,7 +141,12 @@ if __name__ == "__main__":
 
     globalvar.app.attributes('-fullscreen', True)  # Attributes
     globalvar.app.title(constants.PROJECT_TITLE)
-    globalvar.app.tk.call("tk", "scaling", 0.5)
+
+    height = globalvar.app.winfo_screenwidth()
+
+    print(240/height)
+
+    globalvar.app.tk.call("tk", "scaling",  height / 960)
 
     helper.create_images()
     helper.add_other_to_meats()
