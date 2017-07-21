@@ -146,7 +146,7 @@ if __name__ == "__main__":
 
     print(240/height)
 
-    globalvar.app.tk.call("tk", "scaling",  height / 960)
+    globalvar.app.tk.call("tk", "scaling",  height / 900)
 
     helper.create_images()
     helper.add_other_to_meats()
