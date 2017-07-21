@@ -281,8 +281,8 @@ class RowFrame(tk.Frame):  # Frame displaying a database row
 
         for index, column in enumerate(constants.columns):
 
-            # Don't display the removed column in database because it's not applicable
-            if column == constants.removedColumn:
+            # Don't display the removed column or removed timestamp in database because it's not applicable
+            if column == constants.removedColumn or column == constants.removedTimeColumn:
                 continue
 
             # If batch number is not existent don't show it
