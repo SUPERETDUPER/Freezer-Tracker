@@ -25,6 +25,7 @@ Backend code with database operations.
 
 """
 import os.path
+from sys import platform
 
 import openpyxl
 
@@ -89,6 +90,7 @@ class Database:
         self.lastRow += 1
 
         self.save()
+        upload()
 
         return self.next_id - 1
 
@@ -105,6 +107,7 @@ class Database:
         row[constants.columns[constants.removedTimeColumn]].value = helper.get_current_date()
 
         self.save()
+        upload()
         return True
 
     def get_info(self, batch_number):
@@ -148,6 +151,13 @@ class Row:  # Row object storing row data
 
     def get_item(self, index):
         return self.row[index]
+
+
+def upload():
+    if platform == "win32":
+        os.system("copy " + constants.db_file_path + " " + constants.server_path)
+    else:
+        os.system("cp ./" + constants.db_file_path + " " + constants.server_path)
 
 
 globalvar.database = Database()
