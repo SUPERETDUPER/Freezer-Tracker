@@ -58,11 +58,13 @@ class EnterDataFrame(Frame):  # GUI to enter numbers
 
         self.keypad = Keypad(self, self.key_pad_changed, allow_decimal=allow_decimal, max_digits=max_digits)
 
-        self.keypad.pack(side="left", expand=False, fill="y")
+        self.keypad.pack(side="left", expand=True, fill="both")
+        self.keypad.pack_propagate(0)
 
         right_frame = tk.Frame(self,
                                padx=constants.BUTTON_PADDING_X)  # Frame containing title, value and confirm button
         right_frame.pack(side="left", expand=True, fill="both")
+        right_frame.pack_propagate(0)
 
         message = tk.Label(right_frame, text=title, font=constants.FONT)  # Title
         message.pack(anchor="n")
@@ -114,8 +116,8 @@ class EnterDataFrame(Frame):  # GUI to enter numbers
 
 
 class Keypad(tk.Frame):  # Class that tracks keypad input
-    def __init__(self, master, callback, max_digits, allow_decimal):
-        super().__init__(master)
+    def __init__(self, master, callback, max_digits, allow_decimal, **kwargs):
+        super().__init__(master, **kwargs)
 
         self.maxDigits = max_digits
         self.callback = callback
@@ -125,6 +127,10 @@ class Keypad(tk.Frame):  # Class that tracks keypad input
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
+
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
 
         # Create key pad buttons
         self.get_keypad_button(text="1", command=lambda: self.add_digit("1")).grid(row=0, column=0, sticky="news")
