@@ -24,11 +24,10 @@ SOFTWARE.
 """
 import tkinter as tk
 
-import constants
+import global_var
 import frames.additem
 import frames.mainframes
 import frames.removeitem
-import globalvar
 import helper
 
 
@@ -53,9 +52,9 @@ class Application(tk.Tk):
         NavToolbar(self).grid(row=2, column=0, sticky="news")  # Builds nav toolbar
 
     def get_header(self):
-        header = tk.Frame(self, background=constants.COMPANY_COLOUR, height=100)
-        if "logo" in globalvar.images:
-            tk.Label(header, image=globalvar.images["logo"], borderwidth=0).pack()
+        header = tk.Frame(self, background=global_var.COMPANY_COLOUR, height=100)
+        if "logo" in global_var.images:
+            tk.Label(header, image=global_var.images["logo"], borderwidth=0).pack()
         return header
 
 
@@ -77,7 +76,7 @@ class MainContainer(tk.Frame):
         frames.additem.ConfirmAdditionFrame)  # List of Interchangeable frames
 
     def __init__(self, master):
-        super().__init__(master, padx=constants.MAIN_CONTAINER_PADDING, pady=constants.MAIN_CONTAINER_PADDING)
+        super().__init__(master, padx=global_var.MAIN_CONTAINER_PADDING, pady=global_var.MAIN_CONTAINER_PADDING)
 
     def setup(self):
         # Using grid to stack frames in same plane
@@ -123,32 +122,32 @@ class NavToolbar(tk.Frame):  # Toolbar at the bottom of the page
     def __init__(self, master=None):
         super().__init__(master)
 
-        self.add_button_to_frame(helper.get_master().go_up, globalvar.images["back"])  # Back button
+        self.add_button_to_frame(helper.get_master().go_up, global_var.images["back"])  # Back button
 
-        self.add_button_to_frame(helper.get_master().go_home, globalvar.images["home"])  # Home button
+        self.add_button_to_frame(helper.get_master().go_home, global_var.images["home"])  # Home button
 
         self.add_button_to_frame(
             lambda: helper.get_master().show_frame(frame_name=frames.mainframes.TurnOffFrame.__name__),
-            globalvar.images["power"])
+            global_var.images["power"])
 
     def add_button_to_frame(self, command, image):
-        helper.get_button(self, command=command, background=constants.DARK_COLOUR,
+        helper.get_button(self, command=command, background=global_var.DARK_COLOUR,
                           image=image).pack(side='left', fill="x", expand=True)
 
 
 if __name__ == "__main__":
-    globalvar.app = Application()  # Create app
+    global_var.app = Application()  # Create app
 
-    globalvar.app.attributes('-fullscreen', True)  # Attributes
-    globalvar.app.title(constants.PROJECT_TITLE)
+    global_var.app.attributes('-fullscreen', True)  # Attributes
+    global_var.app.title(global_var.PROJECT_TITLE)
 
-    height = globalvar.app.winfo_screenwidth()
+    height = global_var.app.winfo_screenwidth()
 
-    globalvar.app.tk.call("tk", "scaling",  height / 900)
+    global_var.app.tk.call("tk", "scaling", height / 900)
 
     helper.create_images()
     helper.add_other_to_meats()
 
-    globalvar.app.setup()  # Create frames
+    global_var.app.setup()  # Create frames
 
-    globalvar.app.mainloop()  # Start GUI
+    global_var.app.mainloop()  # Start GUI

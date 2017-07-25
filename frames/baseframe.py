@@ -28,8 +28,7 @@ All frames which act as windows should have as parent class Frame
 """
 import tkinter as tk
 
-import constants
-import globalvar
+import global_var
 import helper
 
 
@@ -62,18 +61,18 @@ class EnterDataFrame(Frame):  # GUI to enter numbers
         self.keypad.pack_propagate(0)
 
         right_frame = tk.Frame(self,
-                               padx=constants.BUTTON_PADDING_X)  # Frame containing title, value and confirm button
+                               padx=global_var.BUTTON_PADDING_X)  # Frame containing title, value and confirm button
         right_frame.pack(side="left", expand=True, fill="both")
         right_frame.pack_propagate(0)
 
-        message = tk.Label(right_frame, text=title, font=constants.FONT)  # Title
+        message = tk.Label(right_frame, text=title, font=global_var.FONT)  # Title
         message.pack(anchor="n")
 
-        self.label = tk.Label(right_frame, font=constants.FONT_HUGE, text=unit)  # Value that gets updated from keypad
+        self.label = tk.Label(right_frame, font=global_var.FONT_HUGE, text=unit)  # Value that gets updated from keypad
         self.label.pack(expand=True, anchor="e")
 
         self.confirm_button = helper.get_button(right_frame, text="Confirm", background="green",
-                                                image=globalvar.images["tick"],
+                                                image=global_var.images["tick"],
                                                 command=lambda: command(self.keypad.get_value()),
                                                 state="disabled")  # Confirm button
         self.confirm_button.pack(expand=True, fill="both")
@@ -143,14 +142,14 @@ class Keypad(tk.Frame):  # Class that tracks keypad input
         self.get_keypad_button(text="8", command=lambda: self.add_digit("8")).grid(row=2, column=1, sticky="news")
         self.get_keypad_button(text="9", command=lambda: self.add_digit("9")).grid(row=2, column=2, sticky="news")
         self.get_keypad_button(text="0", command=lambda: self.add_digit("0")).grid(row=3, column=1, sticky="news")
-        self.get_keypad_button(command=self.remove_digit, image=globalvar.images["arrowLeft"]) \
+        self.get_keypad_button(command=self.remove_digit, image=global_var.images["arrowLeft"]) \
             .grid(row=3, column=2, sticky="news")
 
         if allow_decimal:
             self.get_keypad_button(text=".", command=lambda: self.add_digit(".")).grid(row=3, column=0, sticky="news")
 
     def get_keypad_button(self, command, image=None, text=None):
-        return helper.get_button(self, text=text, font=constants.FONT_HUGE, padx=30, command=command, image=image)
+        return helper.get_button(self, text=text, font=global_var.FONT_HUGE, padx=30, command=command, image=image)
 
     def add_digit(self, digit):
         if self.maxDigits is None or len(self.value) < self.maxDigits:  # If not passed max_digits add digit
@@ -200,13 +199,13 @@ class ButtonFrame(Frame):
 
                 if index < len(names):  # If button exists for index
 
-                    self.buttonHolder.append(helper.get_button(self, font=constants.FONT, text=names[index],
+                    self.buttonHolder.append(helper.get_button(self, font=global_var.FONT, text=names[index],
                                                                command=lambda i=index: self.command(
                                                                    i)))  # Append button to holder
 
                     self.buttonHolder[index].grid(row=row, column=column, sticky="news",
-                                                  padx=constants.PADDING_BUTTON_FRAME,
-                                                  pady=constants.PADDING_BUTTON_FRAME)  # Place button on grid
+                                                  padx=global_var.PADDING_BUTTON_FRAME,
+                                                  pady=global_var.PADDING_BUTTON_FRAME)  # Place button on grid
 
     def reset_frame(self):
         for button in self.buttonHolder:
@@ -218,7 +217,7 @@ class TitleAndContainer(tk.Frame):  # Simple frame containing a title and a cont
     def __init__(self, master, title=""):
         super().__init__(master)
 
-        label = tk.Label(self, text=title, font=constants.FONT_LARGE)
+        label = tk.Label(self, text=title, font=global_var.FONT_LARGE)
         label.pack()
 
         self.container = tk.Frame(self)
@@ -245,17 +244,17 @@ class YesNoFrame(Frame):  # Frame containing a title, container and yes and no b
         button_padding = 100
 
         # No Button
-        helper.get_button(button_frame, text="No", command=command_no, height=constants.BUTTON_HEIGHT,
+        helper.get_button(button_frame, text="No", command=command_no, height=global_var.BUTTON_HEIGHT,
                           padx=button_padding) \
             .grid(row=0, column=0)
         button_frame.grid_columnconfigure(0, weight=1)
 
-        tk.Frame(button_frame, width=constants.SPACING_BETWEEN_BUTTONS).grid(row=0, column=1)  # Spacer
+        tk.Frame(button_frame, width=global_var.SPACING_BETWEEN_BUTTONS).grid(row=0, column=1)  # Spacer
 
         # Yes Button
-        helper.get_button(button_frame, text="Yes", command=command_yes, background=constants.LIGHT_COLOUR,
+        helper.get_button(button_frame, text="Yes", command=command_yes, background=global_var.LIGHT_COLOUR,
                           padx=button_padding,
-                          height=constants.BUTTON_HEIGHT).grid(row=0, column=2)
+                          height=global_var.BUTTON_HEIGHT).grid(row=0, column=2)
         button_frame.grid_columnconfigure(2, weight=1)
 
     def get_container(self):
@@ -285,25 +284,25 @@ class RowFrame(tk.Frame):  # Frame displaying a database row
     def __init__(self, master, row):
         super().__init__(master)
 
-        for index, column in enumerate(constants.columns):
+        for index, column in enumerate(global_var.columns):
 
             # Don't display the removed column or removed timestamp in database because it's not applicable
-            if column == constants.removedColumn or column == constants.removedTimeColumn:
+            if column == global_var.removedColumn or column == global_var.removedTimeColumn:
                 continue
 
             # If batch number is not existent don't show it
-            if column == constants.idColumn and row.get_item(index) is None:
+            if column == global_var.idColumn and row.get_item(index) is None:
                 continue
 
             # Header cell
-            tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=column).grid(
+            tk.Label(self, font=global_var.FONT, relief="groove", borderwidth=2, text=column).grid(
                 row=0, column=index, sticky="we")
             self.grid_columnconfigure(index, weight=1)
 
             # Data cell
             if row.get_item(index) is not None:
-                tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text=str(row.get_item(index))).grid(
+                tk.Label(self, font=global_var.FONT, relief="groove", borderwidth=2, text=str(row.get_item(index))).grid(
                     row=1, column=index, sticky="we")  # If has a value
             else:
-                tk.Label(self, font=constants.FONT, relief="groove", borderwidth=2, text="---").grid(
+                tk.Label(self, font=global_var.FONT, relief="groove", borderwidth=2, text="---").grid(
                     row=1, column=index, sticky="we")  # If no value replace with "---"

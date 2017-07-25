@@ -25,10 +25,9 @@ Frames for removing item from database
 """
 import tkinter as tk
 
-import constants
+import global_var
 import frames.baseframe
 import frames.mainframes
-import globalvar
 import helper
 
 idNumber = None
@@ -36,8 +35,8 @@ idNumber = None
 
 class RemoveItemFrame(frames.baseframe.EnterDataFrame):  # Key pad to enter batch number
     def __init__(self, master):
-        super().__init__(master, submit_batch_number, title="Item Number", max_digits=constants.LENGTH_OF_BATCH_NUMBER,
-                         min_digits=constants.LENGTH_OF_BATCH_NUMBER, format_as_batch=True)
+        super().__init__(master, submit_batch_number, title="Item Number", max_digits=global_var.LENGTH_OF_BATCH_NUMBER,
+                         min_digits=global_var.LENGTH_OF_BATCH_NUMBER, format_as_batch=True)
         self.previousFrame = frames.mainframes.HomeFrame.__name__
 
 
@@ -78,11 +77,11 @@ def submit_batch_number(number):
     global idNumber
     idNumber = number
 
-    row = globalvar.database.get_info(number)  # Get row object for batch number
+    row = global_var.database.get_info(number)  # Get row object for batch number
 
-    if row == constants.ERROR_NO_SUCH_ITEM:
+    if row == global_var.ERROR_NO_SUCH_ITEM:
         helper.get_master().show_frame(NoItemFrame.__name__)  # If no such row show no item frame
-    elif row == constants.ERROR_ITEM_REMOVED:
+    elif row == global_var.ERROR_ITEM_REMOVED:
         helper.get_master().show_frame(AlreadyRemovedFrame.__name__)  # If row already removed show frame
     else:
         helper.get_master().show_frame(ItemInfoFrame.__name__)  # Else show confirm frame
@@ -90,12 +89,12 @@ def submit_batch_number(number):
 
 
 def remove_item(batch_number):  # Called when asked to remove item
-    result = globalvar.database.remove_item(batch_number)  # Remove item from db
+    result = global_var.database.remove_item(batch_number)  # Remove item from db
 
     if result:  # If success
         helper.get_master().show_frame(SuccessRemoveFrame.__name__)
         container = helper.get_master().get_frame(SuccessRemoveFrame.__name__).get_container()  # Show success frame
         tk.Label(container, text=helper.format_batch(batch_number),
-                 font=constants.FONT_HUGE).pack()  # Add label with product number
+                 font=global_var.FONT_HUGE).pack()  # Add label with product number
     else:
         raise (Exception("Unable to complete database operation"))  # If failed raise Exception

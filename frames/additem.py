@@ -28,10 +28,9 @@ Tracks the current selection through productInfo which gets reset when coming ba
 import tkinter as tk
 
 import backend
-import constants
+import global_var
 import frames.baseframe
 import frames.mainframes
-import globalvar
 import helper
 
 productInfo = [None, None, None]  # Tracks what the user has entered for the product
@@ -50,7 +49,7 @@ class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of mea
 
         meats_main = []  # List of only main types of meat created from full list
 
-        for meat in constants.meats:
+        for meat in global_var.meats:
             meats_main.append(meat[0])
 
         self.populate(meats_main, gridSize)  # Populate based on meat list
@@ -100,7 +99,7 @@ class SuccessMessage(frames.baseframe.MessageFrame):  # Message displaying gener
 
 def button_main_call(index):  # Method called when main meat type selected
     global productInfo
-    productInfo[0] = constants.meats[index]  # Update tracker
+    productInfo[0] = global_var.meats[index]  # Update tracker
 
     if (len(productInfo[0][1])) != 0:
         helper.get_master().show_frame(ButtonSecondFrame.__name__)  # If meat has sub meat go to sub meat page
@@ -127,11 +126,11 @@ def submit_weight(weight_submitted):  # Method called when weight submitted
 def add_product():  # Method called when confirmed object removal
     # Add product to database
     if productInfo[1] is None:
-        batch_id = globalvar.database.add_item(
+        batch_id = global_var.database.add_item(
             backend.Row(category=productInfo[0][0], weight=productInfo[2]))  # If product has no sub type
     else:
-        batch_id = globalvar.database.add_item(backend.Row(category=productInfo[0][0], subcategory=productInfo[1],
-                                                           weight=productInfo[2]))  # If product has sub type
+        batch_id = global_var.database.add_item(backend.Row(category=productInfo[0][0], subcategory=productInfo[1],
+                                                            weight=productInfo[2]))  # If product has sub type
 
     if batch_id == -1:
         raise Exception("Could not add to database")
@@ -140,7 +139,7 @@ def add_product():  # Method called when confirmed object removal
 
     container = helper.get_master().get_frame(SuccessMessage.__name__).get_container()  # Container for batch number
     tk.Label(container, text=helper.format_batch(batch_id),
-             font=constants.FONT_HUGE).pack()  # Add batch number to container
+             font=global_var.FONT_HUGE).pack()  # Add batch number to container
 
 
 def create_row():  # Creates a row object based on tracker

@@ -26,11 +26,10 @@ Contains Home frame and turn off frame
 """
 import tkinter as tk
 
-import constants
+import global_var
 import frames.additem
 import frames.baseframe
 import frames.removeitem
-import globalvar
 import helper
 
 
@@ -43,19 +42,19 @@ class HomeFrame(frames.baseframe.Frame):  # Frame displayed at start
         self.add_button_to_frame(text="Add new item",
                                  command=lambda: helper.get_master().show_frame(
                                      frames.additem.ButtonMainFrame.__name__),
-                                 image=globalvar.images["add"], spacer=False)  # Add item button
+                                 image=global_var.images["add"], spacer=False)  # Add item button
 
         self.add_button_to_frame(text="Remove item",
                                  command=lambda: helper.get_master().show_frame(
                                      frames.removeitem.RemoveItemFrame.__name__),
-                                 image=globalvar.images["remove"])  # Remove item button
+                                 image=global_var.images["remove"])  # Remove item button
 
-        self.add_button_to_frame(text="View database in excel", image=globalvar.images["eye"],
+        self.add_button_to_frame(text="View database in excel", image=global_var.images["eye"],
                                  command=helper.view_in_excel)  # View in excel button
 
     def add_button_to_frame(self, text, command, image,  spacer=True):
         if spacer:
-            tk.Frame(self, width=constants.SPACING_BETWEEN_BUTTONS).pack(side='left')  # If spacer required add spacer
+            tk.Frame(self, width=global_var.SPACING_BETWEEN_BUTTONS).pack(side='left')  # If spacer required add spacer
 
         b = helper.get_button(self, text=text, command=command, image=image)
         b.pack(side='left', fill="x", expand=True)

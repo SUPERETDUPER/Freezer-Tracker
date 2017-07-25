@@ -77,3 +77,6 @@ db_file_path = "freezer_inventory_database.xlsx"
 server_path = "/mnt/FILE03"
 ERROR_ITEM_REMOVED = 100
 ERROR_NO_SUCH_ITEM = 101
+app = None
+database = None
+images = {}
