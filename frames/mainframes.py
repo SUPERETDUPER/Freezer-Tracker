@@ -53,7 +53,7 @@ class HomeFrame(frames.baseframe.Frame):  # Frame displayed at start
         self.add_button_to_frame(text="View database in excel", image=globalvar.images["eye"],
                                  command=helper.view_in_excel)  # View in excel button
 
-    def add_button_to_frame(self, text, command, image,  spacer=True):
+    def add_button_to_frame(self, text, command, image, spacer=True):
         if spacer:
             tk.Frame(self, width=constants.SPACING_BETWEEN_BUTTONS).pack(side='left')  # If spacer required add spacer
 

@@ -24,15 +24,14 @@ SOFTWARE.
 Helper methods for the project
 
 """
+import datetime
 import os
-from sys import platform
 import tkinter as tk
 from math import ceil
+from sys import platform
 
 import constants
 import globalvar
-
-import datetime
 
 
 def get_button(master, font=constants.FONT, padx=constants.BUTTON_PADDING_X, pady=constants.BUTTON_PADDING_Y,
@@ -72,7 +71,8 @@ def add_other_to_meats():  # Add the "Other" option to meat cuts
 def create_images():  # Creates the images and assigns them to the global variable images.
     for image in constants.imageNames.keys():
         try:
-            globalvar.images[image] = tk.PhotoImage(file="res/" + constants.imageNames[image][0]).subsample(constants.imageNames[image][1])
+            globalvar.images[image] = tk.PhotoImage(file="res/" + constants.imageNames[image][0]).subsample(
+                constants.imageNames[image][1])
         except tk.TclError:
             print("No image :" + image)
 
@@ -93,8 +93,9 @@ def format_batch(batch):  # Formats a 5 digit batch number in the form 10 000
 def view_in_excel():  # Opens the database in excel
     if platform == "win32":
         os.system("start " + constants.db_file_path)
-    else :
+    else:
         os.system("libreoffice ./" + constants.db_file_path)
+
 
 def get_current_date():
     return '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
