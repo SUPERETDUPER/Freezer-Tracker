@@ -47,9 +47,11 @@ def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, p
 def turn_off():
     global_var.app.destroy()  # Quit project
 
+    global_var.database.upload()
+
     try:
-        shutil.copy(global_var.reader.get_upload_db_path() + global_var.db_extension, global_var.reader.get_backup_db_path() + "/database_" + get_current_date().replace(":","") + global_var.db_extension)
-    except PermissionError:
+        shutil.copy(global_var.reader.get_local_db_path() + global_var.db_extension, global_var.reader.get_backup_db_path() + "/database_" + get_current_date().replace(":","") + global_var.db_extension)
+    except (PermissionError, OSError) as e:
         print("Permission Error")
 
     if global_var.reader.is_shutdown_on_quit():
