@@ -1,6 +1,6 @@
 # Freezer Tracker
 
-##Description
+## Description
 
 This project is a inventory management tool. It allows you to easily add, remove and track item's in a freezer or fridge.
 
