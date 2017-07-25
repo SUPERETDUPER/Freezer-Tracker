@@ -70,7 +70,7 @@ class StartupFrame(tk.Frame):
                  font=("TkDefaultFont", 50, "bold", "italic")).pack(expand=True)
 
         tk.Button(self, text="Go", command=self.lower, font=global_var.FONT_LARGE, background=global_var.LIGHT_COLOUR,
-                  foreground="white", padx=20).pack(expand=True)
+                  foreground="white", padx=100, pady=50).pack(expand=True)
 
         tk.Label(self, text="Martin Staadecker - 2017", background=global_var.COMPANY_COLOUR, foreground="white",
                  font=global_var.FONT).pack(expand=True)

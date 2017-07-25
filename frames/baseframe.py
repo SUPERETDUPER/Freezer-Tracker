@@ -48,22 +48,26 @@ class Frame(tk.Frame):  # Base frame class building all pages of GUI
 class EnterDataFrame(Frame):  # GUI to enter numbers
     def __init__(self, master, command, title=None, allow_decimal=None, max_digits=None, min_digits=1, unit=None,
                  format_as_batch=False):
-        super().__init__(master)
+        super().__init__(master, background = "green")
 
         self.maxDigits = max_digits
         self.minDigits = min_digits
         self.unit = unit
         self.formatAsBatch = format_as_batch
 
+        self.grid_rowconfigure(0, weight=1)
+
         self.keypad = Keypad(self, self.key_pad_changed, allow_decimal=allow_decimal, max_digits=max_digits)
 
-        self.keypad.pack(side="left", expand=True, fill="both")
-        self.keypad.pack_propagate(0)
+        self.keypad.grid(row=0, column=0, sticky="news")
+        self.keypad.grid_propagate(0)
+        self.grid_columnconfigure(0, weight=1)
 
         right_frame = tk.Frame(self,
                                padx=global_var.BUTTON_PADDING_X)  # Frame containing title, value and confirm button
-        right_frame.pack(side="left", expand=True, fill="both")
-        right_frame.pack_propagate(0)
+        right_frame.grid(row=0, column=1, sticky="news")
+        right_frame.grid_propagate(0)
+        self.grid_columnconfigure(1, weight=1)
 
         message = tk.Label(right_frame, text=title, font=global_var.FONT)  # Title
         message.pack(anchor="n")
