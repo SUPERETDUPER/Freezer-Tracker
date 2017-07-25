@@ -24,7 +24,7 @@ The `helper.py` file contains helper methods.
 
 The `main.py` file is where the tkinter root and base layout structure is built.
 
-###Tkinter structure
+### Tkinter structure
 
 This projects contains several windows or pages. To manage this, the pages are stacked one on top of each other. To display a page, you raise the page to the top of the stack using :
 `helper.getMaster().show_frame(CustomFrameToDisplay.__name__)`.
@@ -33,7 +33,7 @@ When raising a frame its `setup_frame()` method is called. The `reset_frame()` m
 
 All frames specify a `previousFrame` instance variable. This indicates what the back button should do. If set to `None` the back button goes to the previous visited frame.
 
-###Backend structure
+### Backend structure
 
 The project uses the openpyxl library to read, write and update a generated excel file. The `backend.py` module is responsible for these tasks and has three main functions.
 
@@ -47,7 +47,7 @@ The `backend.py` file also defines a Row object for passing data around the appl
 
 The project's master database is stored on the device locally (location depends on the `config.py` file). However, a copy of the database is automatically coppied into a folder which could sync on the network. This folder is specified in the `config.py` file.
 
-###Config file
+### Config file
 
 The `config.py` file stores information that varies depending on the device and implementation.
 
