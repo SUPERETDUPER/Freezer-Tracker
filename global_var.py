@@ -48,7 +48,7 @@ imageNames = {"home": ("ic_action_home.png", 2),
 
 DARK_COLOUR = "#B10000"
 LIGHT_COLOUR = "#FF623A"
-PROJECT_TITLE = "Freezer inventory"
+PROJECT_TITLE = "Freezer Tracker"
 
 PADDING_BUTTON_FRAME = 5
 LENGTH_OF_BATCH_NUMBER = 5

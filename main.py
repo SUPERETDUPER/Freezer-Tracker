@@ -51,11 +51,27 @@ class Application(tk.Tk):
 
         NavToolbar(self).grid(row=2, column=0, sticky="news")  # Builds nav toolbar
 
+        StartupFrame(self).grid(row=0, column=0, rowspan=3, sticky="news")
+
     def get_header(self):
         header = tk.Frame(self, background=global_var.COMPANY_COLOUR, height=100)
         if "logo" in global_var.images:
             tk.Label(header, image=global_var.images["logo"], borderwidth=0).pack()
         return header
+
+
+class StartupFrame(tk.Frame):
+    def __init__(self, master):
+        super().__init__(master, background=global_var.COMPANY_COLOUR)
+
+        tk.Label(self, text=global_var.PROJECT_TITLE, background=global_var.COMPANY_COLOUR, foreground="white",
+                 font=("TkDefaultFont", 50, "bold", "italic")).pack(expand=True)
+
+        tk.Button(self, text="Go", command=self.lower, font=global_var.FONT_LARGE, background=global_var.LIGHT_COLOUR,
+                  foreground="white", padx=20).pack(expand=True)
+
+        tk.Label(self, text="Martin Staadecker - 2017", background=global_var.COMPANY_COLOUR, foreground="white",
+                 font=global_var.FONT).pack(expand=True)
 
 
 class MainContainer(tk.Frame):

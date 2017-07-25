@@ -153,7 +153,6 @@ class Row:  # Row object storing row data
     def get_item(self, index):
         return self.row[index]
 
-
 def upload():
     if sys.platform == "win32":
         os.system("copy " + local_path_w_extension + " " + config.upload_path + global_var.db_extension)
