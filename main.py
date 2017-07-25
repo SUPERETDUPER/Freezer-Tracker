@@ -144,10 +144,9 @@ if __name__ == "__main__":
 
     height = globalvar.app.winfo_screenwidth()
 
-    globalvar.app.tk.call("tk", "scaling",  height / 900)
+    globalvar.app.tk.call("tk", "scaling", height / 900)
 
     helper.create_images()
-    helper.add_other_to_meats()
 
     globalvar.app.setup()  # Create frames
 

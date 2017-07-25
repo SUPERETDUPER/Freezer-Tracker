@@ -24,15 +24,15 @@ SOFTWARE.
 Helper methods for the project
 
 """
+import datetime
 import os
-from sys import platform
 import tkinter as tk
 from math import ceil
+from sys import platform
 
 import constants
 import globalvar
-
-import datetime
+import config
 
 
 def get_button(master, font=constants.FONT, padx=constants.BUTTON_PADDING_X, pady=constants.BUTTON_PADDING_Y,
@@ -48,12 +48,12 @@ def turn_off():
     globalvar.app.destroy()  # Quit project
 
 
-def generate_number_of_items():
-    max_len = len(constants.meats)
+def generate_number_of_items(meats):
+    max_len = len(meats)
 
-    for index in range(len(constants.meats)):
-        if len(constants.meats[index][1]) > max_len:
-            max_len = len(constants.meats[index][1])
+    for index in range(len(meats)):
+        if len(meats[index][1]) > max_len:
+            max_len = len(meats[index][1])
 
     return max_len
 
@@ -62,17 +62,18 @@ def generate_grid_size(num_of_items):  # Generate optimal grid side length based
     return int(ceil(num_of_items ** (1 / 2)))
 
 
-def add_other_to_meats():  # Add the "Other" option to meat cuts
-    for meat in constants.meats:
+def add_other_to_meats(meats):  # Add the "Other" option to meat cuts
+    for meat in meats:
         if len(meat[1]) != 0:
             meat[1].append("Other")
-    constants.meats.append(("Other", []))
+    meats.append(("Other", []))
 
 
 def create_images():  # Creates the images and assigns them to the global variable images.
     for image in constants.imageNames.keys():
         try:
-            globalvar.images[image] = tk.PhotoImage(file="res/" + constants.imageNames[image][0]).subsample(constants.imageNames[image][1])
+            globalvar.images[image] = tk.PhotoImage(file="res/" + constants.imageNames[image][0]).subsample(
+                constants.imageNames[image][1])
         except tk.TclError:
             print("No image :" + image)
 
@@ -92,9 +93,10 @@ def format_batch(batch):  # Formats a 5 digit batch number in the form 10 000
 
 def view_in_excel():  # Opens the database in excel
     if platform == "win32":
-        os.system("start " + constants.db_file_path)
-    else :
-        os.system("libreoffice ./" + constants.db_file_path)
+        os.system("start " + constants.db_file_name)
+    else:
+        os.system("libreoffice ./" + constants.db_file_name)
+
 
 def get_current_date():
     return '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())
