@@ -61,7 +61,7 @@ class Database:
                 self.lastRow = index + 1
                 break
 
-            if self.next_id < row[global_var.columns[global_var.idColumn]].value + 1:  # Update to get latest id assigned
+            if self.next_id < row[global_var.columns[global_var.idColumn]].value + 1:  # Get last id assigned
                 self.next_id = row[global_var.columns[global_var.idColumn]].value + 1
 
     def create_header(self):  # Used to create a new database's headers

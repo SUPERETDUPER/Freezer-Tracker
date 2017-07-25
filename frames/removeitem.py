@@ -25,9 +25,9 @@ Frames for removing item from database
 """
 import tkinter as tk
 
-import global_var
 import frames.baseframe
 import frames.mainframes
+import global_var
 import helper
 
 idNumber = None

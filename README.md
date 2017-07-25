@@ -16,7 +16,7 @@ The `/res` folder contains all images to be loaded in the program.
 
 The `/frames` folder contains the code for the different layouts and windows used in the GUI.
 
-The `global_var.py` file contains all the constants. The `app` variable (the tkinter root). The `images` dictionnary (holder for all Photoimage objects).
+The `global_var.py` file contains all the constants. The `app` variable (the tkinter root). The `images` dictionary (holder for all Photoimage objects).
 
 The `backend.py` file contains all backend methods to interact with the database (using openpyxl).
 
@@ -45,7 +45,7 @@ The project uses the openpyxl library to read, write and update a generated exce
 
 The `backend.py` file also defines a Row object for passing data around the application.
 
-The project's master database is stored on the device locally (location depends on the `config.py` file). However, a copy of the database is automatically coppied into a folder which could sync on the network. This folder is specified in the `config.py` file.
+The project's master database is stored on the device locally (location depends on the `config.py` file). However, a copy of the database is automatically copied into a folder which could sync on the network. This folder is specified in the `config.py` file.
 
 ### Config file
 

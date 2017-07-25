@@ -24,14 +24,14 @@ SOFTWARE.
 Helper methods for the project
 
 """
-import config
+import datetime
 import os
 import tkinter as tk
 from math import ceil
 from sys import platform
 
+import config
 import global_var
-import datetime
 
 
 def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, pady=global_var.BUTTON_PADDING_Y,
@@ -45,7 +45,6 @@ def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, p
 
 def turn_off():
     global_var.app.destroy()  # Quit project
-
 
 
 def generate_number_of_items(meats):
@@ -72,7 +71,8 @@ def add_other_to_meats(meats):  # Add the "Other" option to meat cuts
 def create_images():  # Creates the images and assigns them to the global variable images.
     for image in global_var.imageNames.keys():
         try:
-            global_var.images[image] = tk.PhotoImage(file="res/" + global_var.imageNames[image][0]).subsample(global_var.imageNames[image][1])
+            global_var.images[image] = tk.PhotoImage(file="res/" + global_var.imageNames[image][0]).subsample(
+                global_var.imageNames[image][1])
         except tk.TclError:
             print("No image :" + image)
 
