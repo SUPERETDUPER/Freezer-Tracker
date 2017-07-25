@@ -30,7 +30,8 @@ import tkinter as tk
 from math import ceil
 
 import global_var
-
+import sys
+import subprocess
 
 def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, pady=global_var.BUTTON_PADDING_Y,
                foreground="white",
@@ -44,6 +45,11 @@ def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, p
 def turn_off():
     global_var.app.destroy()  # Quit project
 
+    if global_var.reader.is_shutdown_on_quit():
+        if sys.platform == "win32":
+            subprocess.call(["shutdown", "/s"])
+        else:
+            os.system("sudo shutdown now")
 
 def generate_number_of_items(meats):
     max_len = len(meats)
