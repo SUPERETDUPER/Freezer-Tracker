@@ -146,7 +146,6 @@ if __name__ == "__main__":
     global_var.app.tk.call("tk", "scaling", height / 900)
 
     helper.create_images()
-    helper.add_other_to_meats()
 
     global_var.app.setup()  # Create frames
 

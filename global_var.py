@@ -34,11 +34,6 @@ FONT = ("TkDefaultFont", 17)
 FONT_LARGE = ("TkDefaultFont", 25)
 FONT_HUGE = ("TkDefaultFont", 40)
 
-meats = [("Turkey", ["Breast", "Thigh", "Skin", "Fine textured", "Scap", "MSM", "Dark trim", "White trim", "Fat"]),
-         ("Chicken", ["Breast","Thigh", "Skin", "Fine textured", "MSM", "Wings", "Drums", "Dark trim", "White trim"]),
-         ("Pork", ["Backfat", "Ham fat", "Belly", "Whole Ham", "Picnic shoulder", "Shanks", "Skin", "Loin", "Tenderloin", "Hearts", "Jowls", "Fine textured"]),
-         ("Beef", ["50/50 trim", "60/40 trim", "65/35 trim", "70/30 trim", "80/20 trim", "85/15 trim", "90/10 trim", "Chuck", "Eye of round", "Inside", "Outside", "Heart"])]
-
 imageNames = {"home": ("ic_action_home.png", 2),
               "back": ("ic_action_undo.png", 2),
               "power": ("ic_action_io.png", 2),
@@ -48,7 +43,7 @@ imageNames = {"home": ("ic_action_home.png", 2),
               "arrowLeft": ("ic_action_arrow_left.png", 1),
               "tick": ("ic_action_tick.png", 1),
               "logo": ("ic_logo.png", 3),
-              "eye": ("ic_visibility_white_36pt_3x.png",  2)
+              "eye": ("ic_visibility_white_36pt_3x.png", 2)
               }
 
 DARK_COLOUR = "#B10000"
@@ -73,10 +68,11 @@ columns = collections.OrderedDict([(idColumn, 0),
                                    (removedColumn, 5),
                                    (removedTimeColumn, 6)])
 
-db_file_path = "freezer_inventory_database.xlsx"
-server_path = "/mnt/FILE03"
+db_extension = ".xlsx"
+
 ERROR_ITEM_REMOVED = 100
 ERROR_NO_SUCH_ITEM = 101
+
 app = None
 database = None
 images = {}

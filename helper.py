@@ -24,10 +24,11 @@ SOFTWARE.
 Helper methods for the project
 
 """
+import config
 import os
-from sys import platform
 import tkinter as tk
 from math import ceil
+from sys import platform
 
 import global_var
 import datetime
@@ -46,12 +47,13 @@ def turn_off():
     global_var.app.destroy()  # Quit project
 
 
-def generate_number_of_items():
-    max_len = len(global_var.meats)
 
-    for index in range(len(global_var.meats)):
-        if len(global_var.meats[index][1]) > max_len:
-            max_len = len(global_var.meats[index][1])
+def generate_number_of_items(meats):
+    max_len = len(meats)
+
+    for index in range(len(meats)):
+        if len(meats[index][1]) > max_len:
+            max_len = len(meats[index][1])
 
     return max_len
 
@@ -60,11 +62,11 @@ def generate_grid_size(num_of_items):  # Generate optimal grid side length based
     return int(ceil(num_of_items ** (1 / 2)))
 
 
-def add_other_to_meats():  # Add the "Other" option to meat cuts
-    for meat in global_var.meats:
+def add_other_to_meats(meats):  # Add the "Other" option to meat cuts
+    for meat in meats:
         if len(meat[1]) != 0:
             meat[1].append("Other")
-    global_var.meats.append(("Other", []))
+    meats.append(("Other", []))
 
 
 def create_images():  # Creates the images and assigns them to the global variable images.
@@ -90,9 +92,10 @@ def format_batch(batch):  # Formats a 5 digit batch number in the form 10 000
 
 def view_in_excel():  # Opens the database in excel
     if platform == "win32":
-        os.system("start " + global_var.db_file_path)
-    else :
-        os.system("libreoffice ./" + global_var.db_file_path)
+        os.system("start " + config.local_path + global_var.db_extension)
+    else:
+        os.system("libreoffice ./" + config.local_path + global_var.db_extension)
+
 
 def get_current_date():
     return '{:%Y-%m-%d %H:%M}'.format(datetime.datetime.now())

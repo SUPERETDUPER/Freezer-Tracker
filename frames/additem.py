@@ -29,13 +29,18 @@ import tkinter as tk
 
 import backend
 import global_var
+import config
 import frames.baseframe
 import frames.mainframes
 import helper
 
 productInfo = [None, None, None]  # Tracks what the user has entered for the product
 
-gridSize = helper.generate_grid_size(helper.generate_number_of_items())  # Size of the grid for the buttons
+meats = config.meat_types
+
+helper.add_other_to_meats(meats)
+
+gridSize = helper.generate_grid_size(helper.generate_number_of_items(meats))  # Size of the grid for the buttons
 
 
 class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of meat
@@ -49,7 +54,7 @@ class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of mea
 
         meats_main = []  # List of only main types of meat created from full list
 
-        for meat in global_var.meats:
+        for meat in meats:
             meats_main.append(meat[0])
 
         self.populate(meats_main, gridSize)  # Populate based on meat list
@@ -99,7 +104,8 @@ class SuccessMessage(frames.baseframe.MessageFrame):  # Message displaying gener
 
 def button_main_call(index):  # Method called when main meat type selected
     global productInfo
-    productInfo[0] = global_var.meats[index]  # Update tracker
+
+    productInfo[0] = meats[index]  # Update tracker
 
     if (len(productInfo[0][1])) != 0:
         helper.get_master().show_frame(ButtonSecondFrame.__name__)  # If meat has sub meat go to sub meat page
