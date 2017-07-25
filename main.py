@@ -24,10 +24,10 @@ SOFTWARE.
 """
 import tkinter as tk
 
-import global_var
 import frames.additem
 import frames.mainframes
 import frames.removeitem
+import global_var
 import helper
 
 

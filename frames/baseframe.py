@@ -301,7 +301,8 @@ class RowFrame(tk.Frame):  # Frame displaying a database row
 
             # Data cell
             if row.get_item(index) is not None:
-                tk.Label(self, font=global_var.FONT, relief="groove", borderwidth=2, text=str(row.get_item(index))).grid(
+                tk.Label(self, font=global_var.FONT, relief="groove", borderwidth=2,
+                         text=str(row.get_item(index))).grid(
                     row=1, column=index, sticky="we")  # If has a value
             else:
                 tk.Label(self, font=global_var.FONT, relief="groove", borderwidth=2, text="---").grid(

@@ -26,10 +26,10 @@ Contains Home frame and turn off frame
 """
 import tkinter as tk
 
-import global_var
 import frames.additem
 import frames.baseframe
 import frames.removeitem
+import global_var
 import helper
 
 
