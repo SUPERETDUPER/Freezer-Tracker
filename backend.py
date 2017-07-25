@@ -138,7 +138,7 @@ class Database:
         try:
             shutil.copy(self.local_path_w_extension, global_var.reader.get_upload_db_path() + global_var.db_extension)
         except PermissionError:
-            pass
+            print("Permission Error")
 
 
 class Row:  # Row object storing row data

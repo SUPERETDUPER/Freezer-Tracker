@@ -28,10 +28,12 @@ import datetime
 import os
 import tkinter as tk
 from math import ceil
+import shutil
 
 import global_var
 import sys
 import subprocess
+
 
 def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, pady=global_var.BUTTON_PADDING_Y,
                foreground="white",
@@ -44,6 +46,11 @@ def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, p
 
 def turn_off():
     global_var.app.destroy()  # Quit project
+
+    try:
+        shutil.copy(global_var.reader.get_upload_db_path() + global_var.db_extension, global_var.reader.get_backup_db_path() + "/database_" + get_current_date().replace(":","") + global_var.db_extension)
+    except PermissionError:
+        print("Permission Error")
 
     if global_var.reader.is_shutdown_on_quit():
         if sys.platform == "win32":

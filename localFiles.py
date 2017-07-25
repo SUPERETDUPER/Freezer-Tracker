@@ -59,6 +59,15 @@ class Reader:
 
         self.default_section = config["DEFAULT"]
 
+        # UPLOAD FOLDER
+        upload_dir_path = os.path.dirname(self.get_upload_db_path())  # Upload folder
+        if not os.path.isdir(upload_dir_path):
+            os.makedirs(upload_dir_path)
+
+        backup_dir_path = os.path.join(upload_dir_path, "backups")  # Backups
+        if not os.path.isdir(backup_dir_path):
+            os.makedirs(backup_dir_path)
+
     def get_meat_list(self):
         return self.meat_list
 
@@ -70,3 +79,6 @@ class Reader:
 
     def is_shutdown_on_quit(self):
         return self.default_section["shutdown_on_quit"] == "True"
+
+    def get_backup_db_path(self):
+        return os.path.abspath(self.default_section["backup_db_path"])
