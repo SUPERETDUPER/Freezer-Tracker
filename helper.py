@@ -51,6 +51,7 @@ def turn_off():
         else:
             os.system("sudo shutdown now")
 
+
 def generate_number_of_items(meats):
     max_len = len(meats)
 
