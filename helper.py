@@ -28,9 +28,7 @@ import datetime
 import os
 import tkinter as tk
 from math import ceil
-from sys import platform
 
-import config
 import global_var
 
 
@@ -71,7 +69,7 @@ def add_other_to_meats(meats):  # Add the "Other" option to meat cuts
 def create_images():  # Creates the images and assigns them to the global variable images.
     for image in global_var.imageNames.keys():
         try:
-            global_var.images[image] = tk.PhotoImage(file="res/" + global_var.imageNames[image][0]).subsample(
+            global_var.images[image] = tk.PhotoImage(file="res/img/" + global_var.imageNames[image][0]).subsample(
                 global_var.imageNames[image][1])
         except tk.TclError:
             print("No image :" + image)
@@ -91,10 +89,7 @@ def format_batch(batch):  # Formats a 5 digit batch number in the form 10 000
 
 
 def view_in_excel():  # Opens the database in excel
-    if platform == "win32":
-        os.system("start " + config.local_path + global_var.db_extension)
-    else:
-        os.system("libreoffice ./" + config.local_path + global_var.db_extension)
+    os.startfile(global_var.reader.get_local_db_path() + global_var.db_extension)
 
 
 def get_current_date():

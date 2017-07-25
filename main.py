@@ -24,11 +24,13 @@ SOFTWARE.
 """
 import tkinter as tk
 
+import backend
 import frames.additem
 import frames.mainframes
 import frames.removeitem
 import global_var
 import helper
+import localFiles
 
 
 # Main Frame containing everything
@@ -152,6 +154,10 @@ class NavToolbar(tk.Frame):  # Toolbar at the bottom of the page
 
 
 if __name__ == "__main__":
+    global_var.reader = localFiles.Reader()
+
+    global_var.database = backend.Database()
+
     global_var.app = Application()  # Create app
 
     global_var.app.attributes('-fullscreen', True)  # Attributes

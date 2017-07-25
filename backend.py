@@ -25,23 +25,22 @@ Backend code with database operations.
 
 """
 import os.path
-import sys
+import shutil
 
 import openpyxl
 
-import config
 import global_var
 import helper
-
-local_path_w_extension = config.local_path + global_var.db_extension
 
 
 class Database:
     next_id = 10000
 
     def __init__(self):
-        if os.path.isfile(local_path_w_extension):
-            self.workbook = openpyxl.load_workbook(filename=local_path_w_extension)  # If file exists, load it
+        self.local_path_w_extension = global_var.reader.get_local_db_path() + global_var.db_extension
+
+        if os.path.isfile(self.local_path_w_extension):
+            self.workbook = openpyxl.load_workbook(filename=self.local_path_w_extension)  # If file exists, load it
             self.ws = self.workbook.active
         else:
             self.workbook = openpyxl.Workbook()  # Else create it and create headers
@@ -64,13 +63,15 @@ class Database:
             if self.next_id < row[global_var.columns[global_var.idColumn]].value + 1:  # Get last id assigned
                 self.next_id = row[global_var.columns[global_var.idColumn]].value + 1
 
+        self.save()
+
     def create_header(self):  # Used to create a new database's headers
         for column in global_var.columns.keys():
             header_cell = self.ws.cell(row=1, column=global_var.columns[column] + 1)
             header_cell.value = column
 
     def save(self):  # Save workbook
-        self.workbook.save(filename=local_path_w_extension)
+        self.workbook.save(filename=self.local_path_w_extension)
 
     def add_item(self, row):  # Add a row to the database and return generated id
         empty_row = self.ws[self.lastRow + 1]  # Empty row to fill
@@ -91,7 +92,7 @@ class Database:
         self.lastRow += 1
 
         self.save()
-        upload()
+        self.upload()
 
         return self.next_id - 1
 
@@ -108,7 +109,7 @@ class Database:
         row[global_var.columns[global_var.removedTimeColumn]].value = helper.get_current_date()
 
         self.save()
-        upload()
+        self.upload()
         return True
 
     def get_info(self, batch_number):
@@ -133,6 +134,10 @@ class Database:
                 return row
         return global_var.ERROR_NO_SUCH_ITEM  # Else return -1
 
+    def upload(self):
+        if os.path.isdir(os.path.basename(global_var.reader.get_upload_db_path())):
+            shutil.copy(self.local_path_w_extension, global_var.reader.get_upload_db_path() + global_var.db_extension)
+
 
 class Row:  # Row object storing row data
     def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None):
@@ -152,13 +157,3 @@ class Row:  # Row object storing row data
 
     def get_item(self, index):
         return self.row[index]
-
-
-def upload():
-    if sys.platform == "win32":
-        os.system("copy " + local_path_w_extension + " " + config.upload_path + global_var.db_extension)
-    else:
-        os.system("cp ./" + local_path_w_extension + " " + config.upload_path + global_var.db_extension)
-
-
-global_var.database = Database()

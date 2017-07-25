@@ -76,3 +76,4 @@ ERROR_NO_SUCH_ITEM = 101
 app = None
 database = None
 images = {}
+reader = None

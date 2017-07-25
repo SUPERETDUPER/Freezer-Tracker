@@ -28,7 +28,6 @@ Tracks the current selection through productInfo which gets reset when coming ba
 import tkinter as tk
 
 import backend
-import config
 import frames.baseframe
 import frames.mainframes
 import global_var
@@ -36,11 +35,21 @@ import helper
 
 productInfo = [None, None, None]  # Tracks what the user has entered for the product
 
-meats = config.meat_types
+meats = None
+mainMeats = []
+gridSize = None
 
-helper.add_other_to_meats(meats)
 
-gridSize = helper.generate_grid_size(helper.generate_number_of_items(meats))  # Size of the grid for the buttons
+def setup_meat_list():
+    global meats, gridSize, mainMeats
+    meats = global_var.reader.get_meat_list()
+
+    helper.add_other_to_meats(meats)
+
+    gridSize = helper.generate_grid_size(helper.generate_number_of_items(meats))  # Size of the grid for the buttons
+
+    for meat in meats:
+        mainMeats.append(meat[0])
 
 
 class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of meat
@@ -48,16 +57,13 @@ class ButtonMainFrame(frames.baseframe.ButtonFrame):  # Selection of type of mea
         super().__init__(master, button_main_call)
         self.previousFrame = frames.mainframes.HomeFrame.__name__
 
+        setup_meat_list()
+
     def setup_frame(self):  # Populate with meats
         global productInfo
         productInfo[0] = None
 
-        meats_main = []  # List of only main types of meat created from full list
-
-        for meat in meats:
-            meats_main.append(meat[0])
-
-        self.populate(meats_main, gridSize)  # Populate based on meat list
+        self.populate(mainMeats, gridSize)  # Populate based on meat list
 
 
 class ButtonSecondFrame(frames.baseframe.ButtonFrame):  # Select the sub type of meat
