@@ -25,7 +25,7 @@ Backend code with database operations.
 
 """
 import os.path
-from sys import platform
+import sys
 
 import openpyxl
 
@@ -156,7 +156,7 @@ class Row:  # Row object storing row data
 
 
 def upload():
-    if platform == "win32":
+    if sys.platform == "win32":
         os.system("copy " + local_path_w_extension + " " + config.upload_path + constants.db_extension)
     else:
         os.system("cp ./" + local_path_w_extension + " " + config.upload_path + constants.db_extension)
