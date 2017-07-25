@@ -29,10 +29,10 @@ import sys
 
 import openpyxl
 
+import config
 import constants
 import globalvar
 import helper
-import config
 
 local_path_w_extension = config.local_path + constants.db_extension
 

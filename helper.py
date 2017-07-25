@@ -32,7 +32,6 @@ from sys import platform
 
 import constants
 import globalvar
-import config
 
 
 def get_button(master, font=constants.FONT, padx=constants.BUTTON_PADDING_X, pady=constants.BUTTON_PADDING_Y,
