@@ -137,7 +137,7 @@ class Database:
     def upload(self):
         try:
             shutil.copy(self.local_path_w_extension, global_var.reader.get_upload_db_path() + global_var.db_extension)
-        except PermissionError or OSError:
+        except (PermissionError, OSError) as e:
             print("Permission or OSError. File probably busy")
 
 
