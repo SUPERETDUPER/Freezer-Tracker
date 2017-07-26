@@ -102,9 +102,9 @@ def format_batch(batch):  # Formats a 5 digit batch number in the form 10 000
 
 def view_in_excel():  # Opens the database in excel
     if sys.platform == "win32":
-        os.startfile(fileManager.get_db_local_path())
+        os.system('start excel /r "' + fileManager.get_db_local_path() + '"')
     else:
-        os.system("libreoffice " + fileManager.get_db_local_path())
+        os.system("libreoffice --view --norestore " + fileManager.get_db_local_path())
 
 
 def get_current_date():
