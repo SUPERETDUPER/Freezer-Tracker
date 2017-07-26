@@ -16,19 +16,21 @@ This project was built for and run on a Raspberry Pi connected to the Raspberry 
 
 3. Open `/local/local.conf` and change the value of `project_code` to whatever you want to name your project. If you are tracking data for several different freezer on the same server, this code needs to be unique.
 
+4. Run `main.py`
+
 #### Optional further setup
 
-4. Add your logo to `/res/img` under the name `ic_logo.png`
+- Add your logo to `/res/img` under the name `ic_logo.png`
 
 In `/local/local.conf`:
 
-5. To have your database synced across multiples computers via a network drive, edit `server_path` to point to your network drive (ex. Windows Share Drive).
+- To have your database synced across multiples computers via a network drive, edit `server_path` to point to your network drive (ex. Windows Share Drive).
 
-6. If you want the computer to shutdown when quiting the program, set `shutdown_on_quit` to `True`.
+- If you want the computer to shutdown when quiting the program, set `shutdown_on_quit` to `True`.
 
 In `meat_list.json` : 
 
-7. Change the data to fit your needs. Make sure to keep the same JSON format!
+- Change the data to fit your needs. Make sure to keep the same JSON format!
 
 ## Technical details
 
