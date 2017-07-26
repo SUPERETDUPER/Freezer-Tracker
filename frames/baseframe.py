@@ -60,14 +60,14 @@ class EnterDataFrame(Frame):  # GUI to enter numbers
         self.keypad = Keypad(self, self.key_pad_changed, allow_decimal=allow_decimal, max_digits=max_digits)
 
         self.keypad.grid(row=0, column=0, sticky="news")
-        self.keypad.grid_propagate(0)
         self.grid_columnconfigure(0, weight=1)
+        self.keypad.grid_propagate(0)
 
         right_frame = tk.Frame(self,
                                padx=global_var.BUTTON_PADDING_X)  # Frame containing title, value and confirm button
         right_frame.grid(row=0, column=1, sticky="news")
-        right_frame.grid_propagate(0)
         self.grid_columnconfigure(1, weight=1)
+        right_frame.pack_propagate(0)
 
         message = tk.Label(right_frame, text=title, font=global_var.FONT)  # Title
         message.pack(anchor="n")
