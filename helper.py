@@ -87,7 +87,7 @@ def create_images():  # Creates the images and assigns them to the global variab
             print("No image :" + image)
 
 
-def get_master():  # Return the container for the frames
+def get_container():  # Return the container for the frames
     return global_var.app.mainContainer
 
 

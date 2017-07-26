@@ -57,8 +57,8 @@ idColumn = "Batch number"
 timeColumn = "Time stamp"
 typeColumn = "Type"
 subtypeColumn = "Sub-type"
-weightColumn = "Weight"
-removedColumn = "Removed ?"
+weightColumn = "Weight (kg)"
+removedColumn = "Removed"
 removedTimeColumn = "Removal time stamp"
 columns = collections.OrderedDict([(idColumn, 0),
                                    (timeColumn, 1),

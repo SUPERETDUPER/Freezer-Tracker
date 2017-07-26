@@ -87,7 +87,7 @@ class WeightFrame(frames.baseframe.EnterDataFrame):  # Frame to enter weight
 
 class ConfirmAdditionFrame(frames.baseframe.YesNoFrame):  # Frame to confirm input
     def __init__(self, master=None):
-        super().__init__(master, title="Add the following item to freezer?", command_no=helper.get_master().go_home,
+        super().__init__(master, title="Add the following item to freezer?", command_no=helper.get_container().go_home,
                          command_yes=add_product)
         self.previousFrame = WeightFrame.__name__
 
@@ -115,24 +115,24 @@ def button_main_call(index):  # Method called when main meat type selected
     productInfo[0] = meats[index]  # Update tracker
 
     if (len(productInfo[0][1])) != 0:
-        helper.get_master().show_frame(ButtonSecondFrame.__name__)  # If meat has sub meat go to sub meat page
+        helper.get_container().show_frame(ButtonSecondFrame.__name__)  # If meat has sub meat go to sub meat page
     else:
-        helper.get_master().show_frame(WeightFrame.__name__)  # Else go to enter weight page
+        helper.get_container().show_frame(WeightFrame.__name__)  # Else go to enter weight page
 
 
 def button_second_call(index):  # Method called when sub meat type selected
     global productInfo
     productInfo[1] = productInfo[0][1][index]  # Update tracker
 
-    helper.get_master().show_frame(WeightFrame.__name__)  # Go to weight page
+    helper.get_container().show_frame(WeightFrame.__name__)  # Go to weight page
 
 
 def submit_weight(weight_submitted):  # Method called when weight submitted
     global productInfo
     productInfo[2] = weight_submitted  # Update tracker with weight
 
-    helper.get_master().show_frame(ConfirmAdditionFrame.__name__)  # Show confirmation page
-    helper.get_master().get_frame(ConfirmAdditionFrame.__name__).set_row(
+    helper.get_container().show_frame(ConfirmAdditionFrame.__name__)  # Show confirmation page
+    helper.get_container().get_frame(ConfirmAdditionFrame.__name__).set_row(
         create_row())  # Update GUI row to show selection
 
 
@@ -148,9 +148,9 @@ def add_product():  # Method called when confirmed object removal
     if batch_id == -1:
         raise Exception("Could not add to database")
 
-    helper.get_master().show_frame(SuccessMessage.__name__)  # Show success frame
+    helper.get_container().show_frame(SuccessMessage.__name__)  # Show success frame
 
-    container = helper.get_master().get_frame(SuccessMessage.__name__).get_container()  # Container for batch number
+    container = helper.get_container().get_frame(SuccessMessage.__name__).get_container()  # Container for batch number
     tk.Label(container, text=helper.format_batch(batch_id),
              font=global_var.FONT_HUGE).pack()  # Add batch number to container
 

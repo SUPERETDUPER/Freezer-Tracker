@@ -269,7 +269,7 @@ class YesNoFrame(Frame):  # Frame containing a title, container and yes and no b
 
 
 class MessageFrame(Frame):  # Frame displaying title, container and (home) button
-    def __init__(self, master, title="", button_title="Home", command=lambda: helper.get_master().go_home()):
+    def __init__(self, master, title="", button_title="Home", command=lambda: helper.get_container().go_home()):
         super().__init__(master)
 
         self.message_frame = TitleAndContainer(self, title)  # Title and container

@@ -140,12 +140,12 @@ class NavToolbar(tk.Frame):  # Toolbar at the bottom of the page
     def __init__(self, master=None):
         super().__init__(master)
 
-        self.add_button_to_frame(helper.get_master().go_up, global_var.images["back"])  # Back button
+        self.add_button_to_frame(helper.get_container().go_up, global_var.images["back"])  # Back button
 
-        self.add_button_to_frame(helper.get_master().go_home, global_var.images["home"])  # Home button
+        self.add_button_to_frame(helper.get_container().go_home, global_var.images["home"])  # Home button
 
         self.add_button_to_frame(
-            lambda: helper.get_master().show_frame(frame_name=frames.mainframes.TurnOffFrame.__name__),
+            lambda: helper.get_container().show_frame(frame_name=frames.mainframes.TurnOffFrame.__name__),
             global_var.images["power"])
 
     def add_button_to_frame(self, command, image):

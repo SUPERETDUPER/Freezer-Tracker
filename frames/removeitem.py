@@ -42,7 +42,7 @@ class RemoveItemFrame(frames.baseframe.EnterDataFrame):  # Key pad to enter batc
 
 class ItemInfoFrame(frames.baseframe.YesNoFrame):  # Frame displaying item to remove
     def __init__(self, master=None):
-        super().__init__(master, title="Remove the following item", command_no=helper.get_master().go_home,
+        super().__init__(master, title="Remove the following item", command_no=helper.get_container().go_home,
                          command_yes=lambda: remove_item(idNumber))
         self.previousFrame = RemoveItemFrame.__name__
 
@@ -80,20 +80,20 @@ def submit_batch_number(number):
     row = global_var.database.get_info(number)  # Get row object for batch number
 
     if row == global_var.ERROR_NO_SUCH_ITEM:
-        helper.get_master().show_frame(NoItemFrame.__name__)  # If no such row show no item frame
+        helper.get_container().show_frame(NoItemFrame.__name__)  # If no such row show no item frame
     elif row == global_var.ERROR_ITEM_REMOVED:
-        helper.get_master().show_frame(AlreadyRemovedFrame.__name__)  # If row already removed show frame
+        helper.get_container().show_frame(AlreadyRemovedFrame.__name__)  # If row already removed show frame
     else:
-        helper.get_master().show_frame(ItemInfoFrame.__name__)  # Else show confirm frame
-        helper.get_master().get_frame(ItemInfoFrame.__name__).set_row(row)  # And display data
+        helper.get_container().show_frame(ItemInfoFrame.__name__)  # Else show confirm frame
+        helper.get_container().get_frame(ItemInfoFrame.__name__).set_row(row)  # And display data
 
 
 def remove_item(batch_number):  # Called when asked to remove item
     result = global_var.database.remove_item(batch_number)  # Remove item from db
 
     if result:  # If success
-        helper.get_master().show_frame(SuccessRemoveFrame.__name__)
-        container = helper.get_master().get_frame(SuccessRemoveFrame.__name__).get_container()  # Show success frame
+        helper.get_container().show_frame(SuccessRemoveFrame.__name__)
+        container = helper.get_container().get_frame(SuccessRemoveFrame.__name__).get_container()  # Show success frame
         tk.Label(container, text=helper.format_batch(batch_number),
                  font=global_var.FONT_HUGE).pack()  # Add label with product number
     else:

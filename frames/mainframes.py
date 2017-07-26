@@ -40,12 +40,12 @@ class HomeFrame(frames.baseframe.Frame):  # Frame displayed at start
         self.previousFrame = self.__class__.__name__
 
         self.add_button_to_frame(text="Add new item",
-                                 command=lambda: helper.get_master().show_frame(
+                                 command=lambda: helper.get_container().show_frame(
                                      frames.additem.ButtonMainFrame.__name__),
                                  image=global_var.images["add"], spacer=False)  # Add item button
 
         self.add_button_to_frame(text="Remove item",
-                                 command=lambda: helper.get_master().show_frame(
+                                 command=lambda: helper.get_container().show_frame(
                                      frames.removeitem.RemoveItemFrame.__name__),
                                  image=global_var.images["remove"])  # Remove item button
 
@@ -63,4 +63,4 @@ class HomeFrame(frames.baseframe.Frame):  # Frame displayed at start
 class TurnOffFrame(frames.baseframe.YesNoFrame):  # Frame for the power button
     def __init__(self, master):
         super().__init__(master, title="Are you sure you want to quit?", command_yes=helper.turn_off,
-                         command_no=helper.get_master().go_up)
+                         command_no=helper.get_container().go_up)
