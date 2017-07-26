@@ -25,12 +25,12 @@ SOFTWARE.
 import tkinter as tk
 
 import backend
+import fileManager
 import frames.additem
 import frames.mainframes
 import frames.removeitem
 import global_var
 import helper
-import fileManager
 
 
 # Main Frame containing everything

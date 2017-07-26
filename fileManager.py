@@ -73,14 +73,16 @@ def setup():
     project_code = main_section["project_code"]
 
     if project_code == "NOT_SET":
-        raise Exception("Project code not set")
+        raise Exception("Project code not set. Please edit /local/local.conf file.")
 
-    upload_path = os.path.abspath(main_section["upload_db_path"])
+    server_path = os.path.abspath(main_section["server_path"])
+
+    upload_path = os.path.join(server_path, project_code, "recent")
 
     if not os.path.isdir(upload_path):
         os.makedirs(upload_path)
 
-    backup_path = os.path.abspath(main_section["backup_db_path"])
+    backup_path = os.path.join(server_path, project_code, "backups")
 
     if not os.path.isdir(backup_path):
         os.makedirs(backup_path)
@@ -110,23 +112,26 @@ def get_project_code():
 
 def get_db_name(timestamp=True):
     if timestamp:
-        return global_var.db_basename + "_" + get_project_code() + "_" + helper.get_current_date().replace(":",
-                                                                                                           "") + global_var.db_extension
-    return global_var.db_basename + "_" + get_project_code() + global_var.db_extension
+        return global_var.db_basename + "_" + helper.get_current_date().replace(":", "") + global_var.db_extension
+    return global_var.db_basename + global_var.db_extension
 
 
 def get_db_local_path():
     return os.path.join(LOCAL_FOLDER_PATH, get_db_name(timestamp=False))
 
 
+# noinspection PyTypeChecker
 def get_upload_db_path_full():
+    # noinspection PyTypeChecker
     return os.path.join(get_upload_db_path(), get_db_name())
 
 
+# noinspection PyTypeChecker
 def get_backup_db_path_full():
     return os.path.join(get_backup_db_path(), get_db_name())
 
 
+# noinspection PyTypeChecker
 def upload():
     for file in os.listdir(get_upload_db_path()):
         file_path = os.path.join(get_upload_db_path(), file)

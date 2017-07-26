@@ -26,14 +26,13 @@ Helper methods for the project
 """
 import datetime
 import os
-import shutil
 import subprocess
 import sys
 import tkinter as tk
 from math import ceil
 
-import global_var
 import fileManager
+import global_var
 
 
 def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, pady=global_var.BUTTON_PADDING_Y,

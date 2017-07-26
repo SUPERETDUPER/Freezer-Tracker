@@ -28,11 +28,11 @@ Tracks the current selection through productInfo which gets reset when coming ba
 import tkinter as tk
 
 import backend
+import fileManager
 import frames.baseframe
 import frames.mainframes
 import global_var
 import helper
-import fileManager
 
 productInfo = [None, None, None]  # Tracks what the user has entered for the product
 
