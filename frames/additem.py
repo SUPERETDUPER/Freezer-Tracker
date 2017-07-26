@@ -156,4 +156,4 @@ def add_product():  # Method called when confirmed object removal
 
 
 def create_row():  # Creates a row object based on tracker
-    return backend.Row(productInfo[0][0], productInfo[1], productInfo[2], None)
+    return backend.Row(productInfo[0][0], productInfo[1], productInfo[2])

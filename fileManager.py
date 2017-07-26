@@ -132,6 +132,7 @@ def get_db_local_path():
 def get_upload_db_path_full():
     if get_upload_db_path() is None:
         return None
+    # noinspection PyTypeChecker
     return os.path.join(get_upload_db_path(), get_db_name())
 
 
@@ -144,7 +145,9 @@ def get_backup_db_path_full():
 
 def upload():
     if upload_path is not None:
+        # noinspection PyTypeChecker
         for file in os.listdir(get_upload_db_path()):
+            # noinspection PyTypeChecker
             file_path = os.path.join(get_upload_db_path(), file)
             os.remove(file_path)
 

@@ -203,7 +203,7 @@ class ButtonFrame(Frame):
 
                 if index < len(names):  # If button exists for index
 
-                    self.buttonHolder.append(helper.get_button(self, font=global_var.FONT, text=names[index],
+                    self.buttonHolder.append(helper.get_button(self, text=names[index],
                                                                command=lambda i=index: self.command(
                                                                    i)))  # Append button to holder
 
@@ -245,11 +245,11 @@ class YesNoFrame(Frame):  # Frame containing a title, container and yes and no b
         button_frame = tk.Frame(self)  # Frame including buttons and spacer
         button_frame.pack(fill="x", expand=True)
 
-        button_padding = 100
+        button_padding_x = 140
+        button_padding_y = 80
 
         # No Button
-        helper.get_button(button_frame, text="No", command=command_no, height=global_var.BUTTON_HEIGHT,
-                          padx=button_padding) \
+        helper.get_button(button_frame, text="No", command=command_no, padx=button_padding_x, pady=button_padding_y) \
             .grid(row=0, column=0)
         button_frame.grid_columnconfigure(0, weight=1)
 
@@ -257,8 +257,7 @@ class YesNoFrame(Frame):  # Frame containing a title, container and yes and no b
 
         # Yes Button
         helper.get_button(button_frame, text="Yes", command=command_yes, background=global_var.LIGHT_COLOUR,
-                          padx=button_padding,
-                          height=global_var.BUTTON_HEIGHT).grid(row=0, column=2)
+                          padx=button_padding_x, pady=button_padding_y).grid(row=0, column=2)
         button_frame.grid_columnconfigure(2, weight=1)
 
     def get_container(self):

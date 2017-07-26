@@ -23,12 +23,17 @@ SOFTWARE.
 """
 import collections
 
+PROJECT_TITLE = "Freezer Tracker"
+
 COMPANY_COLOUR = "#EC2409"
+DARK_COLOUR = "#B10000"
+LIGHT_COLOUR = "#FF623A"
+
 SPACING_BETWEEN_BUTTONS = 40
 BUTTON_PADDING_X = 10
 BUTTON_PADDING_Y = 5
-BUTTON_HEIGHT = 4
 MAIN_CONTAINER_PADDING = 15
+PADDING_BUTTON_FRAME = 5
 
 FONT = ("TkDefaultFont", 17)
 FONT_LARGE = ("TkDefaultFont", 25)
@@ -45,12 +50,11 @@ imageNames = {"home": ("ic_action_home.png", 2),
               "eye": ("ic_visibility_white_36pt_3x.png", 2)
               }
 
-DARK_COLOUR = "#B10000"
-LIGHT_COLOUR = "#FF623A"
-PROJECT_TITLE = "Freezer Tracker"
-
-PADDING_BUTTON_FRAME = 5
 LENGTH_OF_BATCH_NUMBER = 5
+
+# Database
+db_basename = "Freezer_Tracker_Data"
+db_extension = ".xlsx"
 
 idColumn = "Batch number"
 timeColumn = "Time stamp"
@@ -67,13 +71,11 @@ columns = collections.OrderedDict([(idColumn, 0),
                                    (removedColumn, 5),
                                    (removedTimeColumn, 6)])
 
-db_extension = ".xlsx"
-
-db_basename = "Freezer_Tracker_Data"
-
+# Error codes for backend
 ERROR_ITEM_REMOVED = 100
 ERROR_NO_SUCH_ITEM = 101
 
+# Shared variables
 app = None
 database = None
 images = {}
