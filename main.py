@@ -56,7 +56,7 @@ class Application(tk.Tk):
         StartupFrame(self).grid(row=0, column=0, rowspan=3, sticky="news")
 
     def get_header(self):
-        header = tk.Frame(self, background=global_var.COMPANY_COLOUR, height=100)
+        header = tk.Frame(self, background=global_var.COMPANY_COLOUR, height=50)
         if "logo" in global_var.images:
             tk.Label(header, image=global_var.images["logo"], borderwidth=0).pack()
         return header
