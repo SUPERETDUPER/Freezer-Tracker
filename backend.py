@@ -46,6 +46,7 @@ class Database:
             self.ws = self.workbook.active
 
             self.create_header()
+            self.save()
 
         for index, row in enumerate(self.ws.iter_rows(row_offset=1)):  # Loop through every row
 
@@ -61,8 +62,6 @@ class Database:
 
             if self.next_id < row[global_var.columns[global_var.idColumn]].value + 1:  # Get last id assigned
                 self.next_id = row[global_var.columns[global_var.idColumn]].value + 1
-
-        self.save()
 
     def create_header(self):  # Used to create a new database's headers
         for column in global_var.columns.keys():
