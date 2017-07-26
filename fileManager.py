@@ -35,6 +35,7 @@ upload_path = None
 shutdown_on_quit = None
 backup_path = None
 meat_list = None
+backups = None
 
 working_dir = os.getcwd()
 
@@ -50,7 +51,7 @@ LOCAL_CONFIG_PATH = os.path.join(LOCAL_FOLDER_PATH, "local.conf")
 
 
 def setup():
-    global project_code, upload_path, shutdown_on_quit, backup_path, meat_list
+    global project_code, upload_path, shutdown_on_quit, backup_path, meat_list, backups
 
     if not os.path.isdir(LOCAL_FOLDER_PATH):  # If local dir does not exist make it
         os.makedirs(LOCAL_FOLDER_PATH)
@@ -93,7 +94,9 @@ def setup():
         if not os.path.isdir(backup_path):
             os.makedirs(backup_path)
 
-    shutdown_on_quit = (main_section["shutdown_on_quit"] == "True")
+    shutdown_on_quit = main_section["shutdown_on_quit"] == "True"
+
+    backups = main_section["backups"] == "True"
 
 
 def get_meat_list():
@@ -150,7 +153,7 @@ def upload():
 
 
 def backup():
-    if backup_path is not None:
+    if backup_path is not None and backups:
         try:
             shutil.copy(get_db_local_path(), get_backup_db_path_full())
             print("Backed up : " + get_db_local_path() + " to " + get_backup_db_path_full())
