@@ -75,17 +75,23 @@ def setup():
     if project_code == "NOT_SET":
         raise Exception("Project code not set. Please edit /local/local.conf file.")
 
-    server_path = os.path.abspath(main_section["server_path"])
+    server_path = main_section["server_path"]
 
-    upload_path = os.path.join(server_path, project_code, "recent")
+    if server_path == "None":
+        server_path = None
+    else:
+        server_path = os.path.abspath(server_path)
 
-    if not os.path.isdir(upload_path):
-        os.makedirs(upload_path)
+    if server_path is not None:
+        upload_path = os.path.join(server_path, project_code, "recent")
 
-    backup_path = os.path.join(server_path, project_code, "backups")
+        if not os.path.isdir(upload_path):
+            os.makedirs(upload_path)
 
-    if not os.path.isdir(backup_path):
-        os.makedirs(backup_path)
+        backup_path = os.path.join(server_path, project_code, "backups")
+
+        if not os.path.isdir(backup_path):
+            os.makedirs(backup_path)
 
     shutdown_on_quit = (main_section["shutdown_on_quit"] == "True")
 
@@ -120,31 +126,34 @@ def get_db_local_path():
     return os.path.join(LOCAL_FOLDER_PATH, get_db_name(timestamp=False))
 
 
-# noinspection PyTypeChecker
 def get_upload_db_path_full():
-    # noinspection PyTypeChecker
+    if get_upload_db_path() is None:
+        return None
     return os.path.join(get_upload_db_path(), get_db_name())
 
 
 # noinspection PyTypeChecker
 def get_backup_db_path_full():
+    if get_backup_db_path() is None:
+        return None
     return os.path.join(get_backup_db_path(), get_db_name())
 
 
-# noinspection PyTypeChecker
 def upload():
-    for file in os.listdir(get_upload_db_path()):
-        file_path = os.path.join(get_upload_db_path(), file)
-        os.remove(file_path)
+    if upload_path is not None:
+        for file in os.listdir(get_upload_db_path()):
+            file_path = os.path.join(get_upload_db_path(), file)
+            os.remove(file_path)
 
-    shutil.copy(get_db_local_path(), get_upload_db_path_full())
-    print("Uploaded : " + get_db_local_path() + " to " + get_upload_db_path_full())
+        shutil.copy(get_db_local_path(), get_upload_db_path_full())
+        print("Uploaded : " + get_db_local_path() + " to " + get_upload_db_path_full())
 
 
 def backup():
-    try:
-        shutil.copy(get_db_local_path(), get_backup_db_path_full())
-        print("Backed up : " + get_db_local_path() + " to " + get_backup_db_path_full())
-    except (PermissionError, OSError) as e:
-        print("Error")
-        print(e)
+    if backup_path is not None:
+        try:
+            shutil.copy(get_db_local_path(), get_backup_db_path_full())
+            print("Backed up : " + get_db_local_path() + " to " + get_backup_db_path_full())
+        except (PermissionError, OSError) as e:
+            print("Error")
+            print(e)
