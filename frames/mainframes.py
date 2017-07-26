@@ -49,7 +49,7 @@ class HomeFrame(frames.baseframe.Frame):  # Frame displayed at start
                                      frames.removeitem.RemoveItemFrame.__name__),
                                  image=global_var.images["remove"])  # Remove item button
 
-        self.add_button_to_frame(text="View database in excel", image=global_var.images["eye"],
+        self.add_button_to_frame(text="View database", image=global_var.images["eye"],
                                  command=helper.view_in_excel)  # View in excel button
 
     def add_button_to_frame(self, text, command, image, spacer=True):
