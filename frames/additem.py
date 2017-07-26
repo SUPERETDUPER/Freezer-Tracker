@@ -32,6 +32,7 @@ import frames.baseframe
 import frames.mainframes
 import global_var
 import helper
+import fileManager
 
 productInfo = [None, None, None]  # Tracks what the user has entered for the product
 
@@ -42,7 +43,7 @@ gridSize = None
 
 def setup_meat_list():
     global meats, gridSize, mainMeats
-    meats = global_var.reader.get_meat_list()
+    meats = fileManager.get_meat_list()
 
     helper.add_other_to_meats(meats)
 

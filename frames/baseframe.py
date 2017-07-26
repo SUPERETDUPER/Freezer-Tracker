@@ -48,7 +48,7 @@ class Frame(tk.Frame):  # Base frame class building all pages of GUI
 class EnterDataFrame(Frame):  # GUI to enter numbers
     def __init__(self, master, command, title=None, allow_decimal=None, max_digits=None, min_digits=1, unit=None,
                  format_as_batch=False):
-        super().__init__(master, background = "green")
+        super().__init__(master, background="green")
 
         self.maxDigits = max_digits
         self.minDigits = min_digits

@@ -26,13 +26,14 @@ Helper methods for the project
 """
 import datetime
 import os
+import shutil
+import subprocess
+import sys
 import tkinter as tk
 from math import ceil
-import shutil
 
 import global_var
-import sys
-import subprocess
+import fileManager
 
 
 def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, pady=global_var.BUTTON_PADDING_Y,
@@ -47,14 +48,10 @@ def get_button(master, font=global_var.FONT, padx=global_var.BUTTON_PADDING_X, p
 def turn_off():
     global_var.app.destroy()  # Quit project
 
-    global_var.database.upload()
+    fileManager.upload()
+    fileManager.backup()
 
-    try:
-        shutil.copy(global_var.reader.get_local_db_path() + global_var.db_extension, global_var.reader.get_backup_db_path() + "/database_" + get_current_date().replace(":","") + global_var.db_extension)
-    except (PermissionError, OSError) as e:
-        print("Permission Error")
-
-    if global_var.reader.is_shutdown_on_quit():
+    if fileManager.is_shutdown_on_quit():
         if sys.platform == "win32":
             subprocess.call(["shutdown", "/s"])
         else:
@@ -105,7 +102,7 @@ def format_batch(batch):  # Formats a 5 digit batch number in the form 10 000
 
 
 def view_in_excel():  # Opens the database in excel
-    os.startfile(global_var.reader.get_local_db_path() + global_var.db_extension)
+    os.startfile(fileManager.get_db_local_path())
 
 
 def get_current_date():

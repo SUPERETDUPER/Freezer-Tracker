@@ -24,23 +24,22 @@ SOFTWARE.
 Backend code with database operations.
 
 """
-import os.path
-import shutil
+import os
 
 import openpyxl
 
 import global_var
 import helper
+import fileManager
 
 
 class Database:
     next_id = 10000
 
     def __init__(self):
-        self.local_path_w_extension = global_var.reader.get_local_db_path() + global_var.db_extension
 
-        if os.path.isfile(self.local_path_w_extension):
-            self.workbook = openpyxl.load_workbook(filename=self.local_path_w_extension)  # If file exists, load it
+        if os.path.isfile(fileManager.get_db_local_path()):
+            self.workbook = openpyxl.load_workbook(filename=fileManager.get_db_local_path())  # If file exists, load it
             self.ws = self.workbook.active
         else:
             self.workbook = openpyxl.Workbook()  # Else create it and create headers
@@ -71,7 +70,8 @@ class Database:
             header_cell.value = column
 
     def save(self):  # Save workbook
-        self.workbook.save(filename=self.local_path_w_extension)
+        self.workbook.save(filename=fileManager.get_db_local_path())
+        print("Saved : " + fileManager.get_db_local_path())
 
     def add_item(self, row):  # Add a row to the database and return generated id
         empty_row = self.ws[self.lastRow + 1]  # Empty row to fill
@@ -92,7 +92,7 @@ class Database:
         self.lastRow += 1
 
         self.save()
-        self.upload()
+        fileManager.upload()
 
         return self.next_id - 1
 
@@ -109,7 +109,7 @@ class Database:
         row[global_var.columns[global_var.removedTimeColumn]].value = helper.get_current_date()
 
         self.save()
-        self.upload()
+        fileManager.upload()
         return True
 
     def get_info(self, batch_number):
@@ -133,12 +133,6 @@ class Database:
             if row[global_var.columns[global_var.idColumn]].value == batch_number:  # If batch number matches return row
                 return row
         return global_var.ERROR_NO_SUCH_ITEM  # Else return -1
-
-    def upload(self):
-        try:
-            shutil.copy(self.local_path_w_extension, global_var.reader.get_upload_db_path() + global_var.db_extension)
-        except (PermissionError, OSError) as e:
-            print("Permission or OSError. File probably busy")
 
 
 class Row:  # Row object storing row data

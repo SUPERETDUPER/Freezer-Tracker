@@ -70,10 +70,11 @@ columns = collections.OrderedDict([(idColumn, 0),
 
 db_extension = ".xlsx"
 
+db_basename = "Freezer_Tracker_Data"
+
 ERROR_ITEM_REMOVED = 100
 ERROR_NO_SUCH_ITEM = 101
 
 app = None
 database = None
 images = {}
-reader = None
