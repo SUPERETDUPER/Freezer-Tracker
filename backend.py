@@ -86,7 +86,7 @@ class Database:
                 empty_row[index].value = self.next_id  # Assign batch number
                 self.next_id += 1
 
-        empty_row[global_var.columns[global_var.removedColumn]].value = "False"  # Set removed to false
+        empty_row[global_var.columns[global_var.removedColumn]].value = "No"  # Set removed to false
 
         self.lastRow += 1
 
@@ -100,10 +100,10 @@ class Database:
         if row == global_var.ERROR_NO_SUCH_ITEM:
             return global_var.ERROR_NO_SUCH_ITEM
 
-        if row[global_var.columns[global_var.removedColumn]].value == "True":
+        if row[global_var.columns[global_var.removedColumn]].value == "Yes":
             return global_var.ERROR_ITEM_REMOVED
 
-        row[global_var.columns[global_var.removedColumn]].value = "True"
+        row[global_var.columns[global_var.removedColumn]].value = "Yes"
 
         row[global_var.columns[global_var.removedTimeColumn]].value = helper.get_current_date()
 
@@ -118,7 +118,7 @@ class Database:
         if row == global_var.ERROR_NO_SUCH_ITEM:  # If row does not exist return False
             return global_var.ERROR_NO_SUCH_ITEM
 
-        if row[global_var.columns[global_var.removedColumn]].value == "True":
+        if row[global_var.columns[global_var.removedColumn]].value == "Yes":
             return global_var.ERROR_ITEM_REMOVED  # If row already removed return False
 
         return Row(batch_number=row[global_var.columns[global_var.idColumn]].value,
