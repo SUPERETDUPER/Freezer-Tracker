@@ -149,7 +149,10 @@ def upload():
         for file in os.listdir(get_upload_db_path()):
             # noinspection PyTypeChecker
             file_path = os.path.join(get_upload_db_path(), file)
-            os.remove(file_path)
+            try:
+                os.remove(file_path)
+            except OSError:
+                print("Can't remove, resource busy")
 
         shutil.copy(get_db_local_path(), get_upload_db_path_full())
         print("Uploaded : " + get_db_local_path() + " to " + get_upload_db_path_full())
