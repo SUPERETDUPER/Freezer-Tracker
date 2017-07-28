@@ -154,7 +154,10 @@ def upload():
             except OSError:
                 print("Can't remove, resource busy")
 
-        shutil.copy(get_db_local_path(), get_upload_db_path_full())
+        try:
+            shutil.copy(get_db_local_path(), get_upload_db_path_full())
+        except OSError:
+            print("Can't copy file, resource busy")
         print("Uploaded : " + get_db_local_path() + " to " + get_upload_db_path_full())
 
 
