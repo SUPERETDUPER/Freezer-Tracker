@@ -12,11 +12,13 @@ This project was built for and run on a Raspberry Pi connected to the Raspberry 
 
 1. Download the code on your device.
 
-2. Run `main.py` once. Nothing will happen but this will generate a `/local` folder.
+2. Run `pip3 install openpyxl` to install the openpyxl library (pip must already be installed).
 
-3. Open `/local/local.conf` and change the value of `project_code` to whatever you want to name your project. If you are tracking data for several different freezer on the same server, this code needs to be unique.
+3. Run `main.py` once. Nothing will happen but this will generate a `/local` folder.
 
-4. Run `main.py`
+4. Open `/local/local.conf` and change the value of `project_code` to whatever you want to name your project. If you are tracking data for several different freezer on the same server, this code needs to be unique.
+
+5. Run `main.py`
 
 #### Optional further setup
 
