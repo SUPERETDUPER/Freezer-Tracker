@@ -1,52 +1,45 @@
 # Freezer Tracker
 
-This project is a inventory management tool. It allows you to easily add, remove and track item's in a freezer.
+This is a freezer inventory management tool.
 
-It keeps track of the type, sub-type, weight, entry date and removal date of all items that went through the freezer.
+## How it works
+This project is designed to run on a Raspberry Pi with a Raspberry Pi 7'' touchscreen.
 
-Further more, this project can be setup to share the database on a network drive like a windows share drive.
+Enter an item's info (weight and type) on the screen then write the number displayed onto the item. Place the item in the freezer.
 
-This project was built for and run on a Raspberry Pi connected to the Raspberry Pi 7'' touchscreen display.
+To remove the item simply enter the its number on the screen.
 
-## First time setup
+At anytime, check what items are currently in your freezer by consulting the database.
 
-1. Download the code on your device.
+The database tracks the type (and sub-type), weight, entry date and removal date of all items.
+
+The database can be setup to be shared accross multiple devices via a network drive (ex. windows share drive).
+
+## Run the project
+
+1. Download the code to your device.
 
 2. Run `pip3 install openpyxl` to install the openpyxl library (pip must already be installed).
 
-3. Run `main.py` once. Nothing will happen but this will generate a `/local` folder.
+3. Run `main.py` once. This will generate the `/local` folder.
 
 4. Open `/local/local.conf` and change the value of `project_code` to whatever you want to name your project. If you are tracking data for several different freezer on the same server, this code needs to be unique.
 
-5. Run `main.py`
+5. Run `main.py`.
 
-#### Optional further setup
+### Further setup
 
-- Add your logo to `/res/img` under the name `ic_logo.png`
+- Add your logo to `/res/img` with the name `ic_logo.png`.
 
-In `/local/local.conf`:
+- Explore the settings in `/local/local.conf` to further customize your setup. 
 
-- To have your database synced across multiples computers via a network drive, edit `server_path` to point to your network drive (ex. Windows Share Drive).
-
-- If you want the computer to shutdown when quiting the program, set `shutdown_on_quit` to `True`.
-
-In `meat_list.json` : 
-
-- Change the data to fit your needs. Make sure to keep the same JSON format!
+- Edit `meat_list.json` to define your own types of items. Make sure to keep the same JSON format.
 
 ## Technical details
 
-The projects is built using Python.
+The projects is built using Python. The GUI is built with the tkinter library. Interaction with the excel database goes through the openpyxl library. ConfigParser is used for reading the local.conf file. JSON is used for the list of meat types.
 
-The GUI is built with the tkinter library.
-
-Interaction with the excel database goes through the openpyxl library.
-
-ConfigParser is used for reading the local.conf file.
-
-JSON is used for the list of meat types.
-
-### Project structure
+### Folder structure
 
 The `/frames` folder contains the code for the different layouts and windows used in the GUI. The `/frames/baseframe.py` file contains parent frames and basic frames to be customised by the other frame files.
 
@@ -56,7 +49,7 @@ The `/local` folder is a generated folder that contains the settings for that co
 
 The `backend.py` file contains all backend methods to interact with the database (using openpyxl).
 
-The `fileManager.py` file reads and manages the `/local` folder. It also makes runs the network drive upload and backup operations.
+The `fileManager.py` file reads and manages the `/local` folder. It also runs the network drive upload and backup operations.
 
 The `global_var.py` file contains all the constants, the `app` variable (the tkinter root) and the `images` dictionary (holder for all Photoimage objects).
 
@@ -64,7 +57,7 @@ The `helper.py` file contains helper methods.
 
 The `main.py` file is where the tkinter root and base layout structure is built.
 
-### Tkinter structure
+### Tkinter multi-window approach
 
 This projects contains several windows or pages. To manage this, the pages are stacked one on top of each other. To display a page, you raise the page to the top of the stack using :
 
@@ -84,9 +77,9 @@ The structure of the specified network drive is as follow.
 
 `"Project code"` : A parent folder containing the data for that copy of the project. Useful if you have several projects that all need to be update in one network drive.
 
-----`backups` :  A folder containing backups for the database.A backup is added every time the application is closed.
+  |---->`backups` :  A folder containing backups for the database.A backup is added every time the application is closed.
 
-----`recent` : A folder containing one file; the most recent version of the database. Do not put anything in this folder since it will automatically delete it.
+  |---->`recent` : A folder containing one file; the most recent version of the database. Do not put anything in this folder since it will automatically delete it.
 
 #### backend.py file
 
@@ -102,7 +95,7 @@ The `backend.py` file also defines a Row object for passing a row of data around
 
 ### Local folder structure
 
-The `/local` folder is automatically generated. It contains device specific details and settings. IT contains three files.
+The `/local` folder is automatically generated. It contains device specific details and settings. It contains three files.
 
 `/local/meat_list.json` : A file containing the list of meats and sub types to populate the database. At first it is automatically generated by copying the default from the `/res/default_meat_list.json` file.
 
