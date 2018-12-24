@@ -9,11 +9,17 @@ Enter an item's info (weight and type) on the screen then write the number displ
 
 To remove the item simply enter the its number on the screen.
 
-At anytime, check what items are currently in your freezer by consulting the database.
+At anytime, check what items are currently in your freezer by consulting the excel database (in `/local`).
 
 The database tracks the type (and sub-type), weight, entry date and removal date of all items.
 
-The database can be setup to be shared accross multiple devices via a network drive (ex. windows share drive).
+The database can be setup to be shared across multiple devices via a network drive (ex. windows share drive).
+
+![image of startup screen](/res/docs/startup_screen.png)
+
+![image of home screen](/res/docs/home_screen.png)
+
+![image of item weight screen](/res/docs/item_weight.png)
 
 ## Run the project
 
@@ -21,7 +27,7 @@ The database can be setup to be shared accross multiple devices via a network dr
 
 2. Run `pip3 install openpyxl` to install the openpyxl library (pip must already be installed).
 
-3. Run `main.py` once. This will generate the `/local` folder.
+3. Run `main.py` once. This will generate the `/local` folder and then throw an error.
 
 4. Open `/local/local.conf` and change the value of `project_code` to whatever you want to name your project. If you are tracking data for several different freezer on the same server, this code needs to be unique.
 
@@ -33,72 +39,54 @@ The database can be setup to be shared accross multiple devices via a network dr
 
 - Explore the settings in `/local/local.conf` to further customize your setup. 
 
-- Edit `meat_list.json` to define your own types of items. Make sure to keep the same JSON format.
+- Edit `/local/meat_list.json` to define your own types of items. Make sure to keep the same JSON format.
 
 ## Technical details
 
-The projects is built using Python. The GUI is built with the tkinter library. Interaction with the excel database goes through the openpyxl library. ConfigParser is used for reading the local.conf file. JSON is used for the list of meat types.
+The projects is uses the language Python. 
 
-### Folder structure
+- Tkinter is used for graphics (GUI)
+ 
+- Openpyxl is used to interact with the excel database
 
-The `/frames` folder contains the code for the different layouts and windows used in the GUI. The `/frames/baseframe.py` file contains parent frames and basic frames to be customised by the other frame files.
+- ConfigParser is used for reading the local.conf file.
 
-The `/res` folder contains all resources. It contains the default files to create a local folder. It contains the `/res/img` folder containing all images.
+### Project structure
 
-The `/local` folder is a generated folder that contains the settings for that copy of the project. It is not tracked by Git.
+`/frames`: Contains code for the different layouts and windows used in the GUI. `/frames/baseframe.py` contains parent and basic windows to be customised by the other frame files.
 
-The `backend.py` file contains all backend methods to interact with the database (using openpyxl).
+`/res`: contains all resources including:
+ 
+ - default config files to create `/local` during setup;
+ -  `/res/img` containing images for GUI.
 
-The `fileManager.py` file reads and manages the `/local` folder. It also runs the network drive upload and backup operations.
+`/local`: auto-generated folder that contains the local installation settings and the database. Not tracked by Git.
 
-The `global_var.py` file contains all the constants, the `app` variable (the tkinter root) and the `images` dictionary (holder for all Photoimage objects).
+`backend.py`: backend methods to interact with the database (using openpyxl).
 
-The `helper.py` file contains helper methods.
+`fileManager.py`: reads and manages the `/local` config files and runs the network drive upload and backup operations.
 
-The `main.py` file is where the tkinter root and base layout structure is built.
+`global_var.py`: contains all app-wide constants (`app` the tkinter root and `images` a holder for all Photoimage objects).
+
+`helper.py`: contains helper methods.
+
+`main.py`: where the tkinter root and layout structure is built.
 
 ### Tkinter multi-window approach
 
-This projects contains several windows or pages. To manage this, the pages are stacked one on top of each other. To display a page, you raise the page to the top of the stack using :
-
+The app contains multiples windows. Windows are stacked one on top of each another. The command below raises a window to the top of the stack to display it:
 `helper.getContainer().show_frame(FrameToDisplay.__name__)`.
 
-When raising (displaying) a frame its `setup_frame()` method is called. The `reset_frame()` method is called on the frame you are leaving.
-
-All frames specify a `previousFrame` instance variable. This indicates what the back button should do. If set to `None` the back button goes to the previous visited frame (chronologically).
+The command also calls `setup_frame()` and `reset_frame()` on the new and old window respectively.
 
 ### Backend structure
 
-The project's master database is stored locally in the `/local` folder.
+The project's master database is stored locally in `/local`.
 
-However, if configured, the database is automatically copied into your network drive when modified. This network drive can be any folder and it is specified in the `/local/local.conf` file.
+If configured, the database can be automatically copied onto a network drive when modified. This network drive can be any folder and is set in `/local/local.conf`.
 
-The structure of the specified network drive is as follow.
+When configured, the app creates the following folders in the network drive.
 
-`"Project code"` : A parent folder containing the data for that copy of the project. Useful if you have several projects that all need to be update in one network drive.
+`NETWORK_DRIVE/PROJECT_CODE/backups`: contains backups of the database automatically create when app is closed.
 
-  |---->`backups` :  A folder containing backups for the database.A backup is added every time the application is closed.
-
-  |---->`recent` : A folder containing one file; the most recent version of the database. Do not put anything in this folder since it will automatically delete it.
-
-#### backend.py file
-
-The project uses the openpyxl library to read, write and update a generated excel file. The `backend.py` module is responsible for these tasks and has three main functions.
-
-`add_item(Row)` : Adds a row to the database and returns its generated ID.
-
-`remove_item(id)` : Change the value of the `Removed` column to `True` for the row with that id.
-
-`get_info(id)` : Returns the row with the parameters id. May return a `NO_SUCH_ITEM` error code or a `ITEM_REMOVED` error code.
-
-The `backend.py` file also defines a Row object for passing a row of data around the application.
-
-### Local folder structure
-
-The `/local` folder is automatically generated. It contains device specific details and settings. It contains three files.
-
-`/local/meat_list.json` : A file containing the list of meats and sub types to populate the database. At first it is automatically generated by copying the default from the `/res/default_meat_list.json` file.
-
-`/local/local.conf` : A file containing device specific settings. See file for description of settings. Automatically generated from the default `/res/default_local.conf` file.
-
-`/local/Freezer_Tracker_Data.xlsx` : The master database. Generated by the `backend.py` file.
+`NETWORK_DRIVE/PROJECT_CODE/recent`: contains the most recent version of the database. The folder is deleted and re-created each database modification.

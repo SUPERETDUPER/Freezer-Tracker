@@ -72,7 +72,8 @@ class Database:
         self.workbook.save(filename=fileManager.get_db_local_path())
         print("Saved : " + fileManager.get_db_local_path())
 
-    def add_item(self, row):  # Add a row to the database and return generated id
+    # Adds a row to the database and returns its generated id
+    def add_item(self, row):
         empty_row = self.ws[self.lastRow + 1]  # Empty row to fill
 
         for index, cell in enumerate(global_var.columns):  # For every cell in empty_row
@@ -95,6 +96,7 @@ class Database:
 
         return self.next_id - 1
 
+    # Removes an item from the database using the items number
     def remove_item(self, batch_number):
         row = self.get_row(batch_number)  # Get row to set to removed
         if row == global_var.ERROR_NO_SUCH_ITEM:
@@ -111,6 +113,7 @@ class Database:
         fileManager.upload()
         return True
 
+    # Returns the request row from the database using the items number
     def get_info(self, batch_number):
 
         row = self.get_row(batch_number)  # get row with info
@@ -134,7 +137,7 @@ class Database:
         return global_var.ERROR_NO_SUCH_ITEM  # Else return -1
 
 
-class Row:  # Row object storing row data
+class Row:  # Row object used for storing row data
     def __init__(self, category=None, subcategory=None, weight=None, batch_number=None, entry_date=None):
         if entry_date is None:
             entry_date = helper.get_current_date()

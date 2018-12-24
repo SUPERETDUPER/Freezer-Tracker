@@ -32,7 +32,10 @@ import global_var
 import helper
 
 
-class Frame(tk.Frame):  # Base frame class building all pages of GUI
+class Frame(tk.Frame):  # Base frame class building all windows of GUI
+
+    # Indicates what the back button should do
+    # If set to `None` the back button goes to the previous visited frame (chronologically).
     previousFrame = None
 
     def __init__(self, master, **kwargs):
